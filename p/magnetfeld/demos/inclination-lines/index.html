@@ -1,0 +1,89 @@
+<!doctype html>
+<!-- Fullscreen host page for the magnetic inclination-lines experiment. -->
+<html lang="de">
+  <head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>A – Fließende Inklinationslinien</title>
+    <script type="module" crossorigin src="/becoming-many-making-of/p/magnetfeld/assets/inclinationLines-CMqKjUPb.js"></script>
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/magnetfeld/assets/magnetic-terrain-surface-CAn63gb2.js">
+    <link rel="stylesheet" crossorigin href="/becoming-many-making-of/p/magnetfeld/assets/magnetic-terrain-surface-CfSHgAP-.css">
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Generative Landschaft mit magnetischen Inklinationslinien"></canvas>
+    <main class="panel">
+      <div class="panel__controls">
+      <p class="eyebrow">WEBXR MAGNETIC FIELD MVP</p>
+      <h1>Inklinationslinien</h1>
+      <p class="description">
+        Fliege durch eine endlose prozedurale Landschaft und passe das Magnetfeld live an.
+      </p>
+
+      <label class="control control--toggle" for="dark-mode">
+        <span>Dark Mode · Feldlicht <input id="dark-mode" type="checkbox" /></span>
+      </label>
+
+      <label class="control" for="terrain-height">
+        <span>Hügelhöhe <output id="terrain-height-value" for="terrain-height"></output></span>
+        <input id="terrain-height" type="range" min="8" max="42" step="1" />
+      </label>
+      <label class="control" for="hill-size">
+        <span>Hügelgröße <output id="hill-size-value" for="hill-size"></output></span>
+        <input id="hill-size" type="range" min="35" max="140" step="5" />
+      </label>
+      <label class="control" for="terrain-warp-mode">
+        <span>Terrain-Drapierung</span>
+        <select id="terrain-warp-mode"></select>
+      </label>
+      <label class="control" for="terrain-warp">
+        <span>Drapierungsstärke <output id="terrain-warp-value" for="terrain-warp"></output></span>
+        <input id="terrain-warp" type="range" min="0" max="2" step="0.05" />
+      </label>
+      <label class="control" for="line-spacing">
+        <span>Linienabstand <output id="line-spacing-value" for="line-spacing"></output></span>
+        <input id="line-spacing" type="range" min="3" max="18" step="0.5" />
+      </label>
+      <label class="control" for="line-width">
+        <span>Linienbreite <output id="line-width-value" for="line-width"></output></span>
+        <input id="line-width" type="range" min="0.1" max="1.2" step="0.05" />
+      </label>
+      <label class="control" for="animation-pattern">
+        <span>Animationsmuster</span>
+        <select id="animation-pattern"></select>
+      </label>
+      <label class="control" for="flow-speed">
+        <span>Linienfluss <output id="flow-speed-value" for="flow-speed"></output></span>
+        <input id="flow-speed" type="range" min="0" max="18" step="0.5" />
+      </label>
+      <label class="control" for="animation-speed">
+        <span>Animationsgeschwindigkeit <output id="animation-speed-value" for="animation-speed"></output></span>
+        <input id="animation-speed" type="range" min="0" max="3" step="0.05" />
+      </label>
+      <label class="control" for="animation-scale">
+        <span>Animationsgröße <output id="animation-scale-value" for="animation-scale"></output></span>
+        <input id="animation-scale" type="range" min="16" max="120" step="2" />
+      </label>
+      <label class="control" for="field-angle">
+        <span>Magnetfeldrichtung <output id="field-angle-value" for="field-angle"></output></span>
+        <input id="field-angle" type="range" min="0" max="360" step="1" />
+      </label>
+      <label class="control" for="flight-speed">
+        <span>Fluggeschwindigkeit <output id="flight-speed-value" for="flight-speed"></output></span>
+        <input id="flight-speed" type="range" min="5" max="250" step="5" />
+      </label>
+      </div>
+
+      <footer class="panel__status">
+      <dl class="stats" aria-live="polite">
+        <div><dt>FPS</dt><dd id="fps-value">0</dd></div>
+        <div><dt>p95</dt><dd id="p95-value">0 ms</dd></div>
+        <div><dt>Draw Calls</dt><dd id="draw-call-value">0</dd></div>
+        <div><dt>Dreiecke</dt><dd id="triangle-value">0</dd></div>
+      </dl>
+
+      <p class="hint">Klick ins Bild: Steuerung · WASD/Pfeiltasten: fliegen · Esc: Maus frei</p>
+      </footer>
+    </main>
+  </body>
+</html>

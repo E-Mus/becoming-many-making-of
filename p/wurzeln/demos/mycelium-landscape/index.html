@@ -1,0 +1,67 @@
+<!doctype html>
+<!--
+  Entry point for the independent live landscape and mycelium MVP.
+  Controls remain plain DOM while Three.js owns the WebGL2 presentation.
+-->
+<html lang="de">
+  <head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0e0913" />
+    <link rel="icon" href="data:," />
+    <title>Myzel-Landschaft</title>
+    <script type="module" crossorigin src="/becoming-many-making-of/p/wurzeln/assets/myceliumLandscape-kttJ8tml.js"></script>
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/wurzeln/assets/ui-tOlNMvOI.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/wurzeln/assets/VRButton-DzLHpgI-.js">
+    <link rel="stylesheet" crossorigin href="/becoming-many-making-of/p/wurzeln/assets/myceliumLandscape-B_kPht0C.css">
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Generative Landschaft mit unterirdischem Myzel"></canvas>
+
+    <main class="panel">
+      <p class="eyebrow">WEBGL2 LANDSCAPE MVP</p>
+      <h1>Myzel-Landschaft</h1>
+      <p class="description">
+        Schalte Ebenen direkt und passe Landschaft, Bäume und Netzwerk live an.
+      </p>
+
+      <label class="control" for="size-slider">
+        <span>Größe <output id="size-value">28 m</output></span>
+        <input id="size-slider" type="range" min="16" max="48" step="2" value="28" />
+      </label>
+      <label class="control" for="tree-slider">
+        <span>Bäume <output id="tree-value">18</output></span>
+        <input id="tree-slider" type="range" min="4" max="80" step="2" value="18" />
+      </label>
+      <label class="control" for="point-slider">
+        <span>Punkte <output id="point-value">500</output></span>
+        <input id="point-slider" type="range" min="100" max="2000" step="100" value="500" />
+      </label>
+      <fieldset class="layers">
+        <legend>Ebenen</legend>
+        <label><input id="terrain-toggle" type="checkbox" checked /> Landschaft</label>
+        <label><input id="tree-toggle" type="checkbox" checked /> Bäume</label>
+        <label><input id="subsurface-toggle" type="checkbox" checked /> Boden transparent</label>
+        <label><input id="network-toggle" type="checkbox" checked /> Myzel</label>
+      </fieldset>
+
+      <dl class="stats" aria-live="polite">
+        <div><dt>Status</dt><dd id="status-value">Aktualisiere …</dd></div>
+        <div><dt>FPS</dt><dd id="fps-value">0</dd></div>
+        <div><dt>p95</dt><dd id="p95-value">0 ms</dd></div>
+        <div><dt>Bäume</dt><dd id="tree-count-value">0</dd></div>
+        <div><dt>Hyphen</dt><dd id="hypha-value">0</dd></div>
+        <div><dt>Dreiecke</dt><dd id="triangle-value">0</dd></div>
+      </dl>
+
+      <div class="actions">
+        <button id="grow-network-button" type="button">Myzel wachsen lassen</button>
+        <button id="new-landscape-button" type="button">Neue Landschaft</button>
+      </div>
+      <p class="hint">
+        <a href="/">Alle Experimente</a> · Regler aktualisieren die aktuelle Landschaft live
+      </p>
+    </main>
+
+  </body>
+</html>

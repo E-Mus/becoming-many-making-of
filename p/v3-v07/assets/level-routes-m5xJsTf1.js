@@ -1,0 +1,1 @@
+var e=[`start`,`white-world`,`scent`,`echo`,`motion`,`thermal`,`magnetic`,`connections`,`diagnostic`,`visual-integration`],t=new Set(e);function n(e){return t.has(e)}function r(e){let t=e.replace(/^\/+|\/+$/g,``);return t===`tutorial`?`start`:n(t)?t:void 0}export{n,r,e as t};

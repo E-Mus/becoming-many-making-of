@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d1311">
+    <link rel="icon" href="/becoming-many-making-of/p/david-refactor/favicon.svg" type="image/svg+xml">
+    <title>Becoming Many — Conductor</title>
+    <script type="module" crossorigin src="/becoming-many-making-of/p/david-refactor/assets/conductor-g0f_o9jY.js"></script>
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/app-BEK48C0z.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/frame-metrics-CJOhMwym.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/rolldown-runtime-CbXtAM7H.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/preload-helper-Czpn1I53.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/three.core-DS0u-71n.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/dom-Bumxq0_S.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/deployment-config-C9a-HGGZ.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/transport-scrubbing-C-_aB1jh.js">
+    <link rel="stylesheet" crossorigin href="/becoming-many-making-of/p/david-refactor/assets/app-BSyo_gae.css">
+  </head>
+  <body>
+    <p role="alert" class="startup-error" data-startup-error hidden>
+      Unable to start Becoming Many. Please reload.
+    </p>
+    <main id="conductor-root" class="conductor" inert>
+      <header class="conductor__masthead">
+        <section class="conductor__tiles" aria-label="Station status">
+          <div class="conductor__tile" data-tile="sound">
+            <svg
+              class="lucide-icon"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <use data-icon="volume-2"></use>
+            </svg>
+            <div class="conductor__tile-body">
+              <span class="conductor__tile-label">Sound</span
+              ><output class="conductor__tile-value">—</output>
+            </div>
+          </div>
+          <div class="conductor__tile" data-tile="picture">
+            <svg
+              class="lucide-icon"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <use data-icon="image"></use>
+            </svg>
+            <div class="conductor__tile-body">
+              <span class="conductor__tile-label">Picture</span
+              ><output class="conductor__tile-value">—</output>
+            </div>
+          </div>
+          <div class="conductor__tile" data-tile="controller">
+            <svg
+              class="lucide-icon"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <use data-icon="smartphone"></use>
+            </svg>
+            <div class="conductor__tile-body">
+              <span class="conductor__tile-label">Controller</span
+              ><output class="conductor__tile-value">—</output>
+            </div>
+          </div>
+          <div class="conductor__tile" data-tile="headset">
+            <svg
+              class="lucide-icon"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <use data-icon="headset"></use>
+            </svg>
+            <div class="conductor__tile-body">
+              <span class="conductor__tile-label">Headset</span
+              ><output class="conductor__tile-value">—</output>
+            </div>
+          </div>
+        </section>
+        <button
+          type="button"
+          class="conductor__tech-button"
+          aria-label="Technician tools"
+          aria-controls="conductor-technician-tools"
+          aria-expanded="false"
+        >
+          <span class="conductor__button-icon"
+            ><svg
+              class="lucide-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <use data-icon="wrench"></use>
+            </svg></span
+          >
+        </button>
+      </header>
+
+      <section class="conductor__transport" aria-label="Transport">
+        <div class="conductor__transport-controls">
+          <button type="button" class="conductor__transport-button">
+            <span class="conductor__transport-icon"
+              ><span data-play-icon
+                ><svg
+                  class="lucide-icon"
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <use data-icon="play"></use>
+                </svg></span
+              ><span data-pause-icon hidden
+                ><svg
+                  class="lucide-icon"
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <use data-icon="pause"></use>
+                </svg></span
+              ></span
+            ><span data-transport-label>Play</span>
+          </button>
+          <button
+            type="button"
+            class="conductor__stop-button"
+            title="Reset time and flight position"
+          >
+            <svg
+              class="lucide-icon"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <use data-icon="square"></use>
+            </svg>
+            <span>Stop</span>
+          </button>
+        </div>
+        <section class="conductor__language" aria-label="Language">
+          <button type="button" data-language="en">EN</button
+          ><button type="button" data-language="de">DE</button>
+        </section>
+      </section>
+      <section class="conductor__stage-view" aria-label="Experience preview">
+        <div id="world-stage" class="conductor__stage-mount">
+          <canvas class="experience-canvas"></canvas>
+        </div>
+      </section>
+      <section class="conductor__timeline" aria-label="Show timeline">
+        <output
+          data-timeline-readout
+          aria-label="Elapsed and total show time"
+        ></output>
+        <div
+          class="conductor__timeline-slider"
+          role="slider"
+          tabindex="0"
+          aria-label="Show position"
+          aria-valuemin="0"
+          aria-valuenow="0"
+        >
+          <svg class="timeline__track" aria-hidden="true">
+            <line class="timeline__playhead" y2="100%"></line>
+          </svg>
+        </div>
+        <div class="conductor__chapters"></div>
+        <template data-chapter-slot
+          ><svg class="timeline__slot" aria-hidden="true">
+            <rect
+              class="timeline__slot-background"
+              width="100%"
+              height="100%"
+            ></rect>
+            <rect class="timeline__progress" y="60" height="24"></rect>
+            <text class="timeline__slot-name" x="10" y="21"></text>
+          </svg></template
+        >
+        <template data-chapter-button
+          ><button type="button" class="conductor__chapter-button">
+            <span data-name></span><span class="conductor__chapter-time"></span>
+          </button></template
+        >
+      </section>
+
+      <dialog
+        class="conductor__drawer"
+        id="conductor-technician-tools"
+        aria-label="Technician tools"
+      >
+        <div class="conductor__drawer-group">
+          <div class="conductor__drawer-header">
+            <span>Technician tools</span>
+            <button
+              type="button"
+              class="conductor__drawer-close"
+              aria-label="Close technician tools"
+            >
+              <svg
+                class="lucide-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <use data-icon="x"></use>
+              </svg>
+            </button>
+          </div>
+          <p class="conductor__drawer-caution">
+            Changes here can interrupt the show.
+          </p>
+        </div>
+        <div class="conductor__drawer-group">
+          <span class="conductor__drawer-heading">Headset picture</span>
+          <button type="button" class="conductor__stream-button">
+            <span class="conductor__button-icon"
+              ><svg
+                class="lucide-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <use data-icon="headset"></use>
+              </svg></span
+            ><span data-headset-label></span>
+          </button>
+        </div>
+        <div class="conductor__drawer-group">
+          <span class="conductor__drawer-heading">Rehearsal speed</span>
+          <div class="conductor__speeds">
+            <button type="button" data-time-scale="0.25">0.25×</button>
+            <button type="button" data-time-scale="0.5">0.5×</button>
+            <button type="button" data-time-scale="1">1×</button>
+            <button type="button" data-time-scale="2">2×</button>
+          </div>
+        </div>
+        <div class="conductor__drawer-group">
+          <span class="conductor__drawer-heading">Resets</span>
+          <div class="conductor__resets">
+            <button type="button" data-reset-show>Reset show time</button
+            ><button type="button" data-reset-flight>
+              Reset flight position
+            </button><button type="button" class="conductor__reload-button">
+              Reload page
+            </button>
+          </div>
+        </div>
+        <div class="conductor__drawer-group">
+          <span class="conductor__drawer-heading">M5 controller</span>
+          <details class="conductor__controller-state">
+            <summary>Controller state</summary>
+            <p>Bundled firmware: <output data-m5-bundled-firmware></output></p>
+            <pre data-m5-state>No controller response yet.</pre>
+          </details>
+          <div data-m5-parent>
+            <section class="conductor__m5" aria-label="M5 controller">
+              <label class="conductor__m5-label"
+                >M5 host<input
+                  type="text"
+                  placeholder="bm-station-a-m5.local"
+                ></label
+              ><button type="button" data-set-host>Set</button
+              ><button type="button" data-clear-host>Clear</button>
+              <div class="conductor__m5-preview" hidden>
+                <svg
+                  class="conductor__m5-pad"
+                  viewBox="0 0 100 100"
+                  aria-hidden="true"
+                >
+                  <circle class="conductor__m5-dot" r="7"></circle>
+                </svg><span class="conductor__m5-readout"></span>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="conductor__readouts">
+          <span
+            ><span>Frames</span><output data-reading="frames">—</output></span
+          >
+          <span><span>M5</span><output data-reading="m5">—</output></span>
+          <span><span>Level</span><output data-reading="level">—</output></span>
+          <span><span>Audio</span><output data-reading="audio">—</output></span>
+          <span
+            ><span>Language</span
+            ><output data-reading="language">—</output></span
+          >
+        </div>
+      </dialog>
+      <div class="conductor__wake" hidden>
+        <span class="conductor__wake-station" hidden></span
+        ><span class="conductor__wake-title">Becoming Many</span>
+        <div class="conductor__wake-icon">
+          <svg
+            class="lucide-icon"
+            width="72"
+            height="72"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <use data-icon="alarm-clock"></use>
+          </svg>
+        </div>
+        <span class="conductor__wake-headline">The station is asleep</span
+        ><span class="conductor__wake-hint"
+          >Tap anywhere on this screen to wake the sound.</span
+        ><span class="conductor__wake-pill">Tap to wake</span>
+      </div>
+    </main>
+  </body>
+</html>

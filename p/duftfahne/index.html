@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmellPlume — Geruchsfahne (WebGPU / TSL)</title>
+  <style>
+    :root { color-scheme: light; }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #e7e7ee; }
+    canvas { display: block; }
+    #hint {
+      position: fixed; left: 12px; bottom: 10px; z-index: 10;
+      font: 12px/1.4 -apple-system, Segoe UI, Roboto, sans-serif;
+      color: #6a6a76; user-select: none; pointer-events: none;
+      max-width: 42ch;
+    }
+    #hint b { color: #3a3a46; }
+    #err {
+      position: fixed; inset: 0; z-index: 20; display: none;
+      align-items: center; justify-content: center;
+      font: 14px/1.5 -apple-system, Segoe UI, Roboto, sans-serif; color: #444;
+      background: #e7e7ee; padding: 2rem; text-align: center;
+    }
+  </style>
+
+  <!-- Three.js r171+ (WebGPU-Build + TSL) und lil-gui via ESM-CDN. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":         "/becoming-many-making-of/p/duftfahne/vendor/three@0.171.0/build/three.webgpu.js",
+      "three/webgpu":  "/becoming-many-making-of/p/duftfahne/vendor/three@0.171.0/build/three.webgpu.js",
+      "three/tsl":     "/becoming-many-making-of/p/duftfahne/vendor/three@0.171.0/build/three.tsl.js",
+      "three/addons/": "/becoming-many-making-of/p/duftfahne/vendor/three@0.171.0/examples/jsm/",
+      "lil-gui":       "/becoming-many-making-of/p/duftfahne/vendor/lil-gui@0.19.2/dist/lil-gui.esm.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="hint">
+    <b>SmellPlume</b> — Wind + Curl Noise + Lebensdauer.
+    Ziehen zum Drehen, Scrollen zum Zoomen. Panel oben rechts.
+    Fallback testen: <b>?webgl</b> an die URL anhaengen.
+  </div>
+  <div id="err"></div>
+
+  <script type="module">
+    import './main.js';
+    // Fehler sichtbar machen (z.B. wenn weder WebGPU noch WebGL verfuegbar sind).
+    window.addEventListener( 'error', ( e ) => {
+      const el = document.getElementById( 'err' );
+      el.style.display = 'flex';
+      el.innerHTML = '<div><b>Fehler beim Start.</b><br>' +
+        ( e.message || e.error || '' ) +
+        '<br><br>Benoetigt einen aktuellen Browser mit WebGPU oder WebGL2.</div>';
+    } );
+  </script>
+</body>
+</html>

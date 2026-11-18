@@ -1,0 +1,122 @@
+<!doctype html>
+<!-- Fullscreen host page for the magnetic glowing-grass experiment. -->
+<html lang="de">
+  <head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>B – Magnetischer Grasteppich</title>
+    <script type="module" crossorigin src="/becoming-many-making-of/p/magnetfeld/assets/glowingGrass-CPpMmOX5.js"></script>
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/magnetfeld/assets/magnetic-terrain-surface-CAn63gb2.js">
+    <link rel="stylesheet" crossorigin href="/becoming-many-making-of/p/magnetfeld/assets/magnetic-terrain-surface-CfSHgAP-.css">
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Leuchtende Graslandschaft mit animiertem Magnetfeld"></canvas>
+    <main class="panel">
+      <div class="panel__controls">
+      <p class="eyebrow">WEBXR MAGNETIC GRASS MVP</p>
+      <h1>Magnetischer Grasteppich</h1>
+      <p class="description">
+        Ein instanzierter Gras-Pool folgt der Kamera. Wind und Feldmuster entstehen vollständig auf der GPU.
+      </p>
+
+      <label class="control control--toggle" for="dark-mode">
+        <span>Dark Mode · Feldlicht <input id="dark-mode" type="checkbox" /></span>
+      </label>
+
+      <label class="control" for="dense-zone-radius">
+        <span>Dichte Zone · Ausdehnung <output id="dense-zone-radius-value" for="dense-zone-radius"></output></span>
+        <input id="dense-zone-radius" type="range" step="any" />
+      </label>
+      <label class="control" for="dense-zone-density">
+        <span>Dichte Zone · Dichte <output id="dense-zone-density-value" for="dense-zone-density"></output></span>
+        <input id="dense-zone-density" type="range" step="any" />
+      </label>
+      <label class="control" for="medium-zone-radius">
+        <span>Mittlere Zone · Zusatzradius <output id="medium-zone-radius-value" for="medium-zone-radius"></output></span>
+        <input id="medium-zone-radius" type="range" step="any" />
+      </label>
+      <label class="control" for="medium-zone-density">
+        <span>Mittlere Zone · Dichte <output id="medium-zone-density-value" for="medium-zone-density"></output></span>
+        <input id="medium-zone-density" type="range" step="any" />
+      </label>
+      <label class="control" for="far-zone-radius">
+        <span>Ferne Zone · Zusatzradius <output id="far-zone-radius-value" for="far-zone-radius"></output></span>
+        <input id="far-zone-radius" type="range" step="any" />
+      </label>
+      <label class="control" for="far-zone-density">
+        <span>Ferne Zone · Dichte <output id="far-zone-density-value" for="far-zone-density"></output></span>
+        <input id="far-zone-density" type="range" step="any" />
+      </label>
+      <label class="control" for="zone-transition-softness">
+        <span>Übergangsweichheit <output id="zone-transition-softness-value" for="zone-transition-softness"></output></span>
+        <input id="zone-transition-softness" type="range" step="any" />
+      </label>
+      <label class="control" for="render-view-shape">
+        <span>Render View Shape</span>
+        <select id="render-view-shape"></select>
+      </label>
+      <label class="control" for="grass-geometry-variant">
+        <span>Gras-Geometrie</span>
+        <select id="grass-geometry-variant"></select>
+      </label>
+      <label class="control" for="grass-height">
+        <span>Max. Grashöhe <output id="grass-height-value" for="grass-height"></output></span>
+        <input id="grass-height" type="range" step="any" />
+      </label>
+      <label class="control" for="wind-strength">
+        <span>Windstärke <output id="wind-strength-value" for="wind-strength"></output></span>
+        <input id="wind-strength" type="range" min="0" max="1" step="any" />
+      </label>
+      <label class="control" for="wind-speed">
+        <span>Windgeschwindigkeit <output id="wind-speed-value" for="wind-speed"></output></span>
+        <input id="wind-speed" type="range" min="0" max="4" step="any" />
+      </label>
+      <label class="control" for="line-spacing">
+        <span>Linienabstand <output id="line-spacing-value" for="line-spacing"></output></span>
+        <input id="line-spacing" type="range" min="3" max="18" step="any" />
+      </label>
+      <label class="control" for="line-width">
+        <span>Linienbreite <output id="line-width-value" for="line-width"></output></span>
+        <input id="line-width" type="range" min="0.1" max="1.2" step="any" />
+      </label>
+      <label class="control" for="line-glow">
+        <span>Glow Linien <output id="line-glow-value" for="line-glow"></output></span>
+        <input id="line-glow" type="range" min="0" max="2" step="any" />
+      </label>
+      <label class="control" for="animation-pattern">
+        <span>Animationsmuster</span>
+        <select id="animation-pattern"></select>
+      </label>
+      <label class="control" for="flow-speed">
+        <span>Linienfluss <output id="flow-speed-value" for="flow-speed"></output></span>
+        <input id="flow-speed" type="range" min="0" max="18" step="any" />
+      </label>
+      <label class="control" for="animation-speed">
+        <span>Animationsgeschwindigkeit <output id="animation-speed-value" for="animation-speed"></output></span>
+        <input id="animation-speed" type="range" min="0" max="3" step="any" />
+      </label>
+      <label class="control" for="field-angle">
+        <span>Magnetfeldrichtung <output id="field-angle-value" for="field-angle"></output></span>
+        <input id="field-angle" type="range" min="0" max="360" step="any" />
+      </label>
+      <label class="control" for="flight-speed">
+        <span>Fluggeschwindigkeit <output id="flight-speed-value" for="flight-speed"></output></span>
+        <input id="flight-speed" type="range" min="5" max="250" step="any" />
+      </label>
+      </div>
+
+      <footer class="panel__status">
+      <dl class="stats" aria-live="polite">
+        <div><dt>FPS</dt><dd id="fps-value">0</dd></div>
+        <div><dt>p95</dt><dd id="p95-value">0 ms</dd></div>
+        <div><dt>Draw Calls</dt><dd id="draw-call-value">0</dd></div>
+        <div><dt>Dreiecke</dt><dd id="triangle-value">0</dd></div>
+        <div><dt>Grasbüschel</dt><dd id="grass-instance-value">0</dd></div>
+      </dl>
+
+      <p class="hint">Klick ins Bild: Steuerung · WASD/Pfeiltasten: fliegen · Esc: Maus frei</p>
+      </footer>
+    </main>
+  </body>
+</html>

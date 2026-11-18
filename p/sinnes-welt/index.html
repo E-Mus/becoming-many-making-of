@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Sinnes-Welt — Licht · Echo · Thermal · UV</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-family: system-ui, sans-serif; }
+  canvas { display: block; }
+  #overlay { position: fixed; left: 14px; top: 12px; color: #cfd8dc; z-index: 10; user-select: none; pointer-events: none; text-shadow: 0 1px 3px #000; }
+  #overlay h1 { font-size: 15px; margin: 0 0 5px; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
+  #overlay .keys { font-size: 12px; opacity: .8; line-height: 1.7; }
+  #overlay kbd { background: #1c1c1c; border: 1px solid #444; border-radius: 4px; padding: 0 5px; font-size: 11px; }
+  #badge { display: inline-block; margin-top: 7px; font-size: 11px; padding: 2px 9px; border-radius: 10px; background: #0d2233; border: 1px solid #2c5a77; color: #8fdcff; }
+  #err { position: fixed; inset: auto 14px 14px 14px; z-index: 20; color: #ff8a80; font-size: 13px; white-space: pre-wrap; }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "/becoming-many-making-of/p/duftvolumen/vendor/three@0.180.0/build/three.webgpu.js",
+    "three/webgpu": "/becoming-many-making-of/p/duftvolumen/vendor/three@0.180.0/build/three.webgpu.js",
+    "three/tsl": "/becoming-many-making-of/p/duftvolumen/vendor/three@0.180.0/build/three.tsl.js",
+    "three/addons/": "/becoming-many-making-of/p/sinnes-welt/vendor/three@0.180.0/examples/jsm/",
+    "lil-gui": "/becoming-many-making-of/p/sinnes-welt/vendor/lil-gui@0.20.0/dist/lil-gui.esm.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="overlay">
+  <h1>Sinnes-Welt</h1>
+  <div class="keys">
+    <kbd>1</kbd> Sichtbares Licht &nbsp; <kbd>2</kbd> Echoortung &nbsp; <kbd>3</kbd> Thermalsicht &nbsp; <kbd>4</kbd> UV<br/>
+    <kbd>Leertaste</kbd> Echo-Impuls senden &nbsp;·&nbsp; <kbd>W A S D</kbd> bewegen, <kbd>Q</kbd>/<kbd>E</kbd> hoch/runter, Maus: umsehen
+  </div>
+  <span id="badge">Renderer startet…</span>
+</div>
+<div id="err"></div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

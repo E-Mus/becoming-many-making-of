@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+<head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Gras — Three.js / WebGL</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0e1512; }
+  body { font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: #e8f0e6; }
+  #view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+  #view:active { cursor: grabbing; }
+
+  #hud {
+    position: fixed; top: 12px; left: 12px; z-index: 10;
+    padding: 10px 13px; border-radius: 9px;
+    background: rgba(10, 20, 14, .55);
+    border: 1px solid rgba(160, 210, 150, .18);
+    backdrop-filter: blur(8px);
+    letter-spacing: .02em; pointer-events: none;
+    min-width: 132px;
+  }
+  #hud b { font-size: 16px; color: #b6e07a; font-weight: 600; }
+  #hud span { opacity: .6; }
+  #hud hr { border: 0; border-top: 1px solid rgba(160, 210, 150, .18); margin: 7px 0; }
+
+  #hint {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 10; padding: 9px 16px; border-radius: 999px;
+    background: rgba(10, 20, 14, .55);
+    border: 1px solid rgba(160, 210, 150, .18);
+    backdrop-filter: blur(8px);
+    white-space: nowrap; pointer-events: none;
+    transition: opacity .6s ease;
+  }
+  #hint.gone { opacity: 0; }
+
+  #frozen {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 20;
+    padding: 8px 14px; border-radius: 8px;
+    background: rgba(120, 60, 20, .72);
+    border: 1px solid rgba(255, 190, 120, .35);
+    backdrop-filter: blur(8px); color: #ffe6c8; pointer-events: none;
+  }
+  #frozen code { color: #ffd9a8; }
+  #hint kbd {
+    background: rgba(180, 224, 122, .16); border-radius: 4px;
+    padding: 1px 5px; margin: 0 1px; font: inherit; color: #cdeb9c;
+  }
+  .lil-gui { --width: 268px; font-family: inherit !important; }
+  @media (max-width: 640px) { #hint { font-size: 11px; padding: 7px 11px; } }
+</style>
+  <script type="module" crossorigin src="/becoming-many-making-of/p/gras/assets/index-2RsPgLT6.js"></script>
+</head>
+<body>
+  <canvas id="view"></canvas>
+  <div id="hud">…</div>
+  <div id="frozen" hidden>Kamera eingefroren (<code>?freeze=1</code>) — beliebige Taste oder Klick löst</div>
+  <div id="hint">
+    <kbd>Ziehen</kbd> umsehen · <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> laufen ·
+    <kbd>Shift</kbd> rennen · <kbd>Leertaste</kbd> hochfliegen · <kbd>C</kbd> sinken ·
+    <kbd>R</kbd> landen · <kbd>Doppelklick</kbd> Mauszeiger fangen
+  </div>
+</body>
+</html>

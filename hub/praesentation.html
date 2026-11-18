@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head><script src="/becoming-many-making-of/sw-register.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Becoming Many – Präsentation</title>
+<link rel="icon" href="/becoming-many-making-of/hub/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/becoming-many-making-of/hub/praesentation.css">
+</head>
+<body>
+  <!-- Hintergrund: die fertige Experience im Autopiloten, ohne Ton -->
+  <div id="bg"></div>
+  <div id="veil"></div>
+  <canvas id="air" aria-hidden="true"></canvas>
+
+  <!-- Großer Titel (Intro und Ende) -->
+  <section id="hero">
+    <p class="hero-kicker" id="hero-kicker"></p>
+    <h1 class="hero-title" id="hero-title">Becoming Many</h1>
+    <p class="hero-sub" id="hero-sub"></p>
+  </section>
+
+  <!-- Bildunterschrift der Phase -->
+  <section id="caption">
+    <p class="cap-kicker" id="cap-kicker"></p>
+    <h2 class="cap-title" id="cap-title"></h2>
+    <p class="cap-text" id="cap-text"></p>
+  </section>
+
+  <!-- Karten der hervorgehobenen Stände (anklickbar: live öffnen) -->
+  <section id="cards"></section>
+
+  <!-- Fotos und Videos der Folie (rechts), feine Linien führen zu ihrem Ort auf der Zeitleiste -->
+  <section id="media" aria-label="Fotos und Videos"></section>
+  <svg id="leads" aria-hidden="true"></svg>
+
+  <!-- Die Zeitleiste -->
+  <section id="tl" aria-label="Zeitleiste"></section>
+
+  <!-- Abspann -->
+  <section id="credits"></section>
+
+  <!-- Live-Ansicht eines Standes -->
+  <section id="live" hidden>
+    <div id="live-frame"></div>
+    <div class="live-label"><span class="dot" id="live-dot"></span><span id="live-title"></span><small id="live-meta"></small></div>
+    <button type="button" class="live-close" id="live-close" title="Zurück zur Zeitleiste (Esc)">Zurück · Esc</button>
+  </section>
+
+  <!-- Ein Foto oder Video groß -->
+  <section id="zoom" hidden>
+    <div id="zoom-box"></div>
+    <p id="zoom-cap"></p>
+    <button type="button" class="live-close" id="zoom-close" title="Zurück (Esc)">Zurück · Esc</button>
+  </section>
+
+  <!-- Startklick: Vollbild + Freigabe für die Show im Hintergrund -->
+  <button type="button" id="gate"><span>Klicken oder Taste drücken</span><small>Startet im Vollbild</small></button>
+
+  <div id="progress"><i></i></div>
+  <div id="hint">→ weiter · ← zurück · 1–9 Karte oder Bild groß · Esc zurück · F Vollbild · S Ton · N Notizen · H Making-of</div>
+  <script type="module" src="/becoming-many-making-of/hub/praesentation.js"></script>
+</body>
+</html>

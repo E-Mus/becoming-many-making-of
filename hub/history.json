@@ -1,0 +1,153 @@
+{
+  "_info": "Versionen (Bänder), Ereignisse (Ausstellungen, Veröffentlichungen) und Meilensteine ohne eigene Ansicht (z. B. Patch-Releases). Projekte mit Ansicht kommen aus den manifest.json-Dateien.",
+  "versions": [
+    {
+      "id": 1,
+      "title": "Version 1",
+      "name": "Sinneswandler",
+      "from": "2026-04-23",
+      "to": "2026-06-10",
+      "summary": "Eine Experience in Davids Neural-Flight-Lehrplattform (SvelteKit, Quest, ICAROS). Fledermaus-Echo, Duftschicht, Schwarm-Netz, Papierschnitt-Tiefenbild, Flüsse.",
+      "repo": "github.com/Strehk/neural-flight-template"
+    },
+    {
+      "id": 2,
+      "title": "Version 2",
+      "name": "WebGPU",
+      "from": "2026-06-29",
+      "to": "2026-08-19",
+      "summary": "Neu aufgesetzt auf three.js WebGPU mit TSL und Theatre.js-Zeitachse. Gekachelte Welt, Sinne als Schichten, Drone-Orgel, Beta im Netz.",
+      "repo": "github.com/Strehk/uni-becoming-many"
+    },
+    {
+      "id": 3,
+      "title": "Version 3",
+      "name": "Neubau",
+      "from": "2026-08-21",
+      "to": "2026-11-15",
+      "summary": "Kompletter Neubau auf WebGL und WebXR für die Installation. Releases v0.1 bis v0.7.5, Station mit Conductor, Web-Release.",
+      "repo": "github.com/Strehk/becoming-many"
+    }
+  ],
+  "milestones": [
+    {
+      "date": "2026-04-23",
+      "label": "Fledermaus-Echo",
+      "note": "Erste Experience im Kurs Borrowed Senses auf der Neural-Flight-Plattform",
+      "version": 1
+    },
+    {
+      "date": "2026-05-26",
+      "label": "Sinneswandler",
+      "note": "Der Sinneswandler entsteht als eigene Experience",
+      "version": 1
+    },
+    {
+      "date": "2026-06-29",
+      "label": "Neustart V2",
+      "note": "Repo uni-becoming-many angelegt: three.js WebGPU",
+      "version": 2
+    },
+    {
+      "date": "2026-08-21",
+      "label": "Neustart",
+      "note": "Repo Strehk/becoming-many und dweigend/becoming_many_new angelegt",
+      "version": 3
+    },
+    {
+      "date": "2026-08-25",
+      "label": "Import",
+      "note": "becoming_many_new wird als Arbeitsbasis in Tades Repo übernommen",
+      "version": 3
+    },
+    {
+      "date": "2026-09-02",
+      "label": "v0.1.1",
+      "note": "pull-by-default, Multi-Arch-Image",
+      "version": 3
+    },
+    {
+      "date": "2026-09-02",
+      "label": "v0.2.0",
+      "note": "ein Stations-Fenster: Conductor hostet die Show",
+      "version": 3
+    },
+    {
+      "date": "2026-09-02",
+      "label": "v0.3.1",
+      "note": "eine M5-Abfrage",
+      "version": 3
+    },
+    {
+      "date": "2026-09-02",
+      "label": "v0.3.2",
+      "note": "sechs Anfragen pro Sekunde",
+      "version": 3
+    },
+    {
+      "date": "2026-09-02",
+      "label": "v0.3.3",
+      "note": "XR-kompatibler Renderkontext",
+      "version": 3
+    },
+    {
+      "date": "2026-09-02",
+      "label": "v0.3.4",
+      "note": "Rig und neuer Conductor",
+      "version": 3
+    },
+    {
+      "date": "2026-09-02",
+      "label": "v0.4.1",
+      "note": "VR-Komfort",
+      "version": 3
+    },
+    {
+      "date": "2026-11-05",
+      "label": "v0.7.1",
+      "note": "XR-Sitzungen ohne Layers-Feature",
+      "version": 3
+    },
+    {
+      "date": "2026-11-05",
+      "label": "v0.7.2",
+      "note": "stündliches Neuladen empfohlen",
+      "version": 3
+    },
+    {
+      "date": "2026-11-05",
+      "label": "v0.7.3",
+      "note": "Show ohne Tutorial, niedrigere Flughöhe",
+      "version": 3
+    },
+    {
+      "date": "2026-11-05",
+      "label": "v0.7.4",
+      "note": "beginnt in Weiß, Welt blendet bei Play ein",
+      "version": 3
+    }
+  ],
+  "events": [
+    {
+      "date": "2026-06-06",
+      "label": "Lange Nacht der Wissenschaften",
+      "note": "Erster grober Prototyp auf dem ICAROS"
+    },
+    {
+      "date": "2026-07-17",
+      "to": "2026-07-18",
+      "label": "Werkschau HTW",
+      "note": "17. und 18. Juli"
+    },
+    {
+      "date": "2026-09-11",
+      "label": "Vernissage Futurium",
+      "note": "Eröffnung im Futurium Berlin"
+    },
+    {
+      "date": "2026-11-15",
+      "label": "Web-Release",
+      "note": "Online unter e-mus.github.io/becoming-many"
+    }
+  ]
+}

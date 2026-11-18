@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+	<head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Swarm Network Demo</title>
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				overflow: hidden;
+				background: #020817;
+			}
+
+			canvas {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+
+			.hint {
+				position: fixed;
+				left: 16px;
+				bottom: 14px;
+				color: rgba(215, 239, 255, 0.72);
+				font: 12px/1.4 system-ui, sans-serif;
+				pointer-events: none;
+			}
+		</style>
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./vendor/three.module.js"
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="scene"></canvas>
+		<div class="hint">WASD bewegen, Space/Shift hoch/runter, Maus ziehen zum Umsehen</div>
+		<script type="module" src="./demo/main.js"></script>
+	</body>
+</html>
+

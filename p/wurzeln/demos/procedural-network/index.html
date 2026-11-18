@@ -1,0 +1,59 @@
+<!doctype html>
+<!--
+  Entry point for the independent procedural WebGL2 network experiment.
+  Its controls configure volume and topology while GLSL shaders animate one
+  continuously weighted mycelial graph without separate edge categories.
+-->
+<html lang="de">
+  <head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08090b" />
+    <link rel="icon" href="data:," />
+    <title>Prozedurales WebGL2-Netzwerk</title>
+    <script type="module" crossorigin src="/becoming-many-making-of/p/wurzeln/assets/proceduralNetwork-CbLzqj9z.js"></script>
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/wurzeln/assets/ui-tOlNMvOI.js">
+    <link rel="modulepreload" crossorigin href="/becoming-many-making-of/p/wurzeln/assets/VRButton-DzLHpgI-.js">
+    <link rel="stylesheet" crossorigin href="/becoming-many-making-of/p/wurzeln/assets/proceduralNetwork-BfzK0JK2.css">
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Prozedurales dreidimensionales Netzwerk"></canvas>
+
+    <main class="panel">
+      <p class="eyebrow">WEBGL2 SHADER EXPERIMENT</p>
+      <h1>Prozedurales Netzwerk</h1>
+      <p class="description">
+        Ein dichtes Hyphengeflecht wächst von mehreren Punkten zusammen.
+        Transport durch dasselbe Netz verstärkt wichtige Bahnen und lässt
+        schwach genutzte Verbindungen zurückgehen.
+      </p>
+
+      <label class="control" for="volume-slider">
+        <span>Volumen <output id="volume-value">8 m</output></span>
+        <input id="volume-slider" type="range" min="4" max="24" step="0.5" value="8" />
+      </label>
+
+      <label class="control" for="point-slider">
+        <span>Punkte <output id="point-value">400</output></span>
+        <input id="point-slider" type="range" min="16" max="2000" step="16" value="400" />
+      </label>
+
+      <dl class="stats" aria-live="polite">
+        <div><dt>FPS</dt><dd id="fps-value">0</dd></div>
+        <div><dt>p95</dt><dd id="p95-value">0 ms</dd></div>
+        <div><dt>Hyphen</dt><dd id="hypha-value">0</dd></div>
+        <div><dt>Transportbahnen</dt><dd id="cord-value">0</dd></div>
+        <div><dt>Dreiecke</dt><dd id="triangle-value">0</dd></div>
+        <div><dt>Aufbau</dt><dd id="generation-value">0 ms</dd></div>
+      </dl>
+
+      <div class="actions">
+        <button id="restart-button" type="button">Neues Muster</button>
+        <button id="pause-button" type="button" class="secondary">Pausieren</button>
+      </div>
+
+      <p class="hint"><a href="/">Alle Experimente</a> · Punktzahl wird beim Loslassen aktualisiert</p>
+    </main>
+
+  </body>
+</html>

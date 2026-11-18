@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "sinneswelt",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "http-server", "-a", "127.0.0.1", "-p", "4177", "-c-1"],
+      "port": 4177
+    }
+  ]
+}

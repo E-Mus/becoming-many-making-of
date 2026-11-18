@@ -1,0 +1,353 @@
+{
+  "_info": "Präsentation: Die Zeitleiste ist der rote Faden. Felder pro Schritt: hero (großer Titel), kicker/title/text (Bildunterschrift), view ('all' oder [von, bis]) zoomt die Zeitleiste, version (dieses Band betonen), highlight (Projekt-IDs), events (Ereignis-Namen), fade (andere abblenden, Standard true), cards (Projekt-IDs als Vorschau-Karten, 'id#ansicht' für eine bestimmte Ansicht; Klick oder Taste 1–9 zeigt sie live, Esc zurück), labels (weitere Experimente beschriften), media (Fotos und Videos rechts, Dateien aus hub/media/fotos: src, caption, date = Aufnahmetag, at = anderer Ort auf der Zeitleiste, speed = schneller abspielen; type 'tech' mit nodes zeigt eine Kette), credits (Abspann), background ('full' = Gameplay-Video im Hintergrund), minutes (Planzeit), notes (für das Notizen-Fenster; [Ergänzen: …] wird gelb markiert).",
+  "title": "Becoming Many – Making-of",
+  "background": {
+    "video": "/becoming-many-making-of/hub/media/gameplay.mp4",
+    "poster": "/becoming-many-making-of/hub/media/gameplay.jpg",
+    "project": "web-release",
+    "seconds": 7,
+    "senseSeconds": [
+      95,
+      150,
+      185,
+      245,
+      295,
+      360,
+      420
+    ]
+  },
+  "steps": [
+    {
+      "label": "Intro",
+      "background": "full",
+      "hero": {
+        "kicker": "Making-of",
+        "title": "Becoming Many",
+        "subtitle": "Eine immersive Reise durch nicht-menschliche Wahrnehmung"
+      },
+      "minutes": 0.6
+    },
+    {
+      "label": "Rahmen",
+      "kicker": "HTW Berlin × Futurium · 2026",
+      "title": "Borrowed Senses",
+      "text": "Ein Hauptprojekt im Kurs Borrowed Senses, in Kooperation mit dem Futurium. Von April bis November: drei Versionen, rund 20 Experimente, eine Installation.",
+      "view": "all",
+      "fade": false,
+      "events": [
+        "Lange Nacht der Wissenschaften",
+        "Werkschau HTW",
+        "Vernissage Futurium",
+        "Web-Release"
+      ],
+      "minutes": 1.2
+    },
+    {
+      "label": "ICAROS",
+      "kicker": "Das Gerät",
+      "title": "ICAROS",
+      "text": "Ein Flugsimulator, auf dem man liegt. Gelenkt wird mit dem ganzen Körper: Wer sich neigt, fliegt in diese Richtung. Dazu kommt eine VR-Brille.",
+      "view": [
+        "2026-04-01",
+        "2026-08-05"
+      ],
+      "fade": false,
+      "media": [
+        {
+          "src": "anfang.jpg",
+          "caption": "ICAROS vor der Borrowed-Senses-Projektion",
+          "date": "2026-07-17"
+        },
+        {
+          "src": "icaros-aufbau.mp4",
+          "caption": "Aufbau im Studio · 10× schneller",
+          "date": "2026-06-30"
+        }
+      ],
+      "minutes": 1.2
+    },
+    {
+      "label": "Technik",
+      "kicker": "Wie es funktioniert",
+      "title": "Alles im Browser",
+      "text": "Becoming Many ist eine Webseite. Die Welt baut three.js, eine JavaScript-Bibliothek für 3D-Grafik. Mehr braucht es nicht, um sie auf ICAROS, Brille oder Laptop zu bringen.",
+      "view": "all",
+      "fade": false,
+      "media": [
+        {
+          "type": "tech",
+          "nodes": [
+            {
+              "kicker": "Körper",
+              "title": "ICAROS",
+              "text": "Man neigt sich, das Gerät kippt mit.",
+              "src": "icaros.png",
+              "contain": true
+            },
+            {
+              "kicker": "Sensor",
+              "title": "M5-Controller",
+              "text": "Ein Gyrosensor am Gerät misst die Neigung und schickt sie per USB an den Rechner.",
+              "src": "gyro.mp4"
+            },
+            {
+              "kicker": "Welt",
+              "title": "three.js",
+              "text": "Zeichnet die Welt im Browser. Version 2 lief auf WebGPU, Version 3 auf WebGL, das überall läuft.",
+              "src": "/becoming-many-making-of/hub/media/gameplay.jpg"
+            },
+            {
+              "kicker": "Bild",
+              "title": "VR-Brille",
+              "text": "Über WebXR kommt die Welt in die Brille, für jedes Auge ein eigenes Bild.",
+              "src": "vr-test.mp4"
+            }
+          ]
+        },
+        {
+          "src": "planung.mp4",
+          "caption": "Die Architektur planen",
+          "date": "2026-07-08"
+        }
+      ],
+      "minutes": 1.5
+    },
+    {
+      "label": "Erste Idee",
+      "kicker": "Phase 1 · April und Mai",
+      "title": "Wie eine Fledermaus",
+      "text": "Die erste Idee: Alles ist weiß. Erst das Echo zeigt Stück für Stück, was um einen herum ist.",
+      "view": [
+        "2026-04-01",
+        "2026-06-12"
+      ],
+      "version": 1,
+      "highlight": [
+        "v1-sinneswandler"
+      ],
+      "cards": [
+        "v1-sinneswandler#fledermaus"
+      ],
+      "media": [
+        {
+          "src": "fruehe-version.mp4",
+          "caption": "Ein früher Stand · Ausschnitte",
+          "date": "2026-05-28"
+        }
+      ],
+      "minutes": 1.2
+    },
+    {
+      "label": "Sinne sammeln",
+      "kicker": "Phase 2 · Juni und Juli",
+      "title": "Sinne sammeln",
+      "text": "Aus dem Echo wird eine Reise: Wir sammeln Sinne und legen sie übereinander, Duft, Echo, Bewegung, Wärme. Je mehr dazukommen, desto lauter die Frage: Was ist eigentlich Wirklichkeit?",
+      "view": [
+        "2026-05-25",
+        "2026-07-28"
+      ],
+      "highlight": [
+        "v1-sinneswandler",
+        "v2-show"
+      ],
+      "events": [
+        "Lange Nacht der Wissenschaften",
+        "Werkschau HTW"
+      ],
+      "cards": [
+        "v1-sinneswandler",
+        "v2-show"
+      ],
+      "media": [
+        {
+          "src": "werkschau-titel.jpg",
+          "caption": "Werkschau HTW",
+          "date": "2026-07-18"
+        },
+        {
+          "src": "werkschau-wald.jpg",
+          "caption": "Flug durch den Wald",
+          "date": "2026-07-18"
+        },
+        {
+          "src": "werkschau-flug.mp4",
+          "caption": "Die Welt wächst mit",
+          "date": "2026-07-18"
+        }
+      ],
+      "minutes": 1.8
+    },
+    {
+      "label": "Experimente",
+      "kicker": "Nebenher",
+      "title": "Experimente",
+      "text": "Rund 20 Studien. Jeder Sinn wird erst einzeln ausprobiert, bevor er in die Welt kommt. Vier davon zeigen wir genauer.",
+      "view": [
+        "2026-06-15",
+        "2026-08-28"
+      ],
+      "highlight": [
+        "drone-orgel",
+        "worldgen",
+        "duftwiese",
+        "wurzeln"
+      ],
+      "labels": [
+        "drone-orgel",
+        "worldgen",
+        "duftwiese",
+        "wurzeln"
+      ],
+      "minutes": 0.8
+    },
+    {
+      "label": "Eigene Werkzeuge",
+      "kicker": "Experimente · Werkzeuge",
+      "title": "Eigene Werkzeuge",
+      "text": "Statt fertiger Programme bauen wir uns Werkzeuge selbst. WorldGen 3 erzeugt die Landschaft. An der Drone-Orgel stecken wir Flugwerte mit Kabeln auf Synth-Regler und hören, wie ein Sinn klingt.",
+      "view": [
+        "2026-06-15",
+        "2026-08-28"
+      ],
+      "highlight": [
+        "drone-orgel",
+        "worldgen"
+      ],
+      "cards": [
+        "drone-orgel",
+        "worldgen"
+      ],
+      "media": [
+        {
+          "src": "synthesizer.mp4",
+          "caption": "Die Drone-Orgel im Einsatz",
+          "date": "2026-07-13"
+        }
+      ],
+      "minutes": 1.5
+    },
+    {
+      "label": "Duft und Wurzeln",
+      "kicker": "Experimente · Sinne",
+      "title": "Duft und Wurzeln",
+      "text": "Duftwiese: Nur die Luft hat Farbe, der Wind trägt den Duft der Pflanzen davon. Wurzeln & Myzel: Ein Pilzgeflecht breitet sich unter der Landschaft aus.",
+      "view": [
+        "2026-06-15",
+        "2026-08-28"
+      ],
+      "highlight": [
+        "duftwiese",
+        "wurzeln"
+      ],
+      "cards": [
+        "duftwiese",
+        "wurzeln"
+      ],
+      "minutes": 1.3
+    },
+    {
+      "label": "Neubau",
+      "kicker": "Phase 3 · Version 3",
+      "title": "Noch mal von vorn",
+      "text": "Mit Vibe-Coding geht es schnell, aber der Code wird zu Spaghetti. Weil es so schnell geht, fangen wir am 21. August einfach neu an: gründlich, auf WebGL, und diesmal wissen wir genau, was wir wollen.",
+      "view": [
+        "2026-08-06",
+        "2026-09-14"
+      ],
+      "version": 3,
+      "highlight": [
+        "v3-neuanfang",
+        "v3-erste-sinne",
+        "v3-station",
+        "grass-clipmap",
+        "v3-roots",
+        "v3-sound",
+        "mosquito-crossing",
+        "test-run",
+        "v3-finetuning"
+      ],
+      "media": [
+        {
+          "src": "error.mp4",
+          "caption": "Über 1000 Fehler in der Konsole",
+          "date": "2026-08-13"
+        }
+      ],
+      "minutes": 1.8
+    },
+    {
+      "label": "Ins Futurium",
+      "kicker": "Phase 4 · Finale Umsetzung",
+      "title": "Ins Futurium",
+      "text": "Die Geräte ziehen ins Futurium, gebaut und getestet wird jetzt vor Ort. Die Stimme, die durch die Reise führt, spricht Tade. Selbst aufgenommen, bewusst ohne KI.",
+      "view": [
+        "2026-08-12",
+        "2026-09-16"
+      ],
+      "version": 3,
+      "highlight": [
+        "v3-station",
+        "v3-sound",
+        "test-run",
+        "v3-finetuning"
+      ],
+      "events": [
+        "Vernissage Futurium"
+      ],
+      "media": [
+        {
+          "src": "futurium-ankunft.jpg",
+          "caption": "Ankunft im Futurium",
+          "date": "2026-08-19"
+        },
+        {
+          "src": "futurium-aufbau.mp4",
+          "caption": "Arbeiten vor Ort",
+          "date": "2026-08-19"
+        }
+      ],
+      "minutes": 1.5
+    },
+    {
+      "label": "Jetzt steht es da",
+      "kicker": "Heute",
+      "title": "Jetzt steht es da",
+      "text": "Seit der Vernissage am 11. September fliegt man im Futurium. Und seit dem 15. November auch zu Hause im Browser: e-mus.github.io/becoming-many",
+      "view": [
+        "2026-08-28",
+        "2026-11-25"
+      ],
+      "highlight": [
+        "web-release",
+        "v3-v07",
+        "v3-v075"
+      ],
+      "events": [
+        "Vernissage Futurium",
+        "Web-Release"
+      ],
+      "cards": [
+        "web-release"
+      ],
+      "media": [
+        {
+          "src": "installation.mp4",
+          "caption": "Die Installation im Futurium",
+          "date": "2026-09-03",
+          "at": "2026-09-11"
+        }
+      ],
+      "minutes": 1.2
+    },
+    {
+      "label": "Danke",
+      "background": "full",
+      "hero": {
+        "kicker": "Danke",
+        "title": "Becoming Many",
+        "subtitle": "e-mus.github.io/becoming-many"
+      },
+      "minutes": 0.5
+    }
+  ]
+}

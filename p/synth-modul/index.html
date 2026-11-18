@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="de">
+  <head><script src="/becoming-many-making-of/sw-register.js"></script><script src="/becoming-many-making-of/hub/inject.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>becoming many synth</title>
+    <style>
+      :root {
+        --bg: #e8dfc7;
+        --panel: #efe8d4;
+        --panel2: #e2d8bd;
+        --ink: #1b1b1a;
+        --muted: #6f6a58;
+        --line: #1b1b1a;
+        --accent: #2c8a7d;
+        --warm: #b9762e;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font: 12px/1.45 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        padding: 14px 16px 40px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 1280px; margin: 0 auto; }
+      .topline { display: flex; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 12px; }
+      h1 { font-size: 23px; font-weight: 800; letter-spacing: -0.6px; margin: 0; text-transform: lowercase; }
+      h1 b { color: var(--accent); }
+      .sub { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.4px; margin-left: auto; }
+
+      .panel { background: linear-gradient(180deg, var(--panel), #e6ddc6); border: 1px solid var(--line); padding: 11px 13px; margin-bottom: 10px; }
+      .panel > h2 { font-size: 9.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+
+      .front { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px; }
+      .harmony { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--line); }
+
+      .ctrl { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+      .ctrl .lab { font-size: 9px; letter-spacing: 1.1px; text-transform: uppercase; color: var(--muted); text-align: center; }
+      .ctrl .val { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
+      .ctrl.big .lab { color: var(--accent); font-weight: 700; }
+
+      .knob svg { display: block; cursor: ns-resize; touch-action: none; }
+      .knob circle { fill: var(--panel); stroke: var(--ink); stroke-width: 1.4; }
+      .knob .ind line { stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; }
+      .knob.accent circle { stroke: var(--accent); }
+      .knob.accent .ind line { stroke: var(--accent); }
+
+      .btn, button.btn { background: var(--panel); border: 1px solid var(--line); color: var(--ink); padding: 7px 12px; font: inherit; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; cursor: pointer; border-radius: 0; }
+      .btn:hover { background: var(--panel2); }
+      .btn.primary, #start { background: var(--ink); color: var(--bg); font-weight: 700; }
+      #start:disabled { opacity: 0.45; }
+
+      select.native { background: var(--panel); border: 1px solid var(--line); color: var(--ink); padding: 6px 8px; font: inherit; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; border-radius: 0; }
+
+      .tg { width: 30px; height: 16px; border: 1px solid var(--ink); background: var(--panel); cursor: pointer; position: relative; }
+      .tg::after { content: ''; position: absolute; top: 1px; left: 1px; width: 12px; height: 12px; background: var(--ink); transition: left .12s; }
+      .tg.on { background: var(--accent); border-color: var(--accent); }
+      .tg.on::after { left: 15px; background: var(--bg); }
+
+      .toggle { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); cursor: pointer; user-select: none; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+      .toggle input { accent-color: var(--ink); width: 13px; height: 13px; }
+
+      .cols { display: grid; grid-template-columns: 232px 1fr; gap: 10px; align-items: start; }
+      @media (max-width: 920px) { .cols { grid-template-columns: 1fr; } }
+      .side { display: flex; flex-direction: column; gap: 10px; }
+      .scenes { display: flex; flex-direction: column; gap: 5px; }
+      .scenes .btn { text-align: left; }
+      canvas.viz { width: 100%; height: 80px; display: block; border: 1px solid var(--line); background: #0f0f0e; }
+
+      /* tabs */
+      .tabs { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--line); margin-bottom: 0; }
+      .tab { padding: 9px 13px; border: 1px solid var(--line); border-bottom: 0; background: var(--panel2); cursor: pointer; font-size: 11px; text-transform: uppercase; letter-spacing: 0.7px; margin-right: -1px; display: flex; align-items: center; gap: 7px; color: var(--muted); }
+      .tab.active { background: var(--panel); color: var(--ink); font-weight: 700; }
+      .tab.global { margin-left: 8px; }
+      .tab .dot { width: 7px; height: 7px; border: 1px solid var(--ink); background: transparent; }
+      .tab .dot.on { background: var(--accent); border-color: var(--accent); }
+      .tabcontent { border: 1px solid var(--line); border-top: 0; padding: 14px; min-height: 260px; }
+
+      .senseHead { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px dashed var(--line); margin-bottom: 12px; }
+      .senseHead .title .nm { font-weight: 800; font-size: 16px; }
+      .senseHead .title .ds { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+      .senseHead .modwrap { display: flex; flex-direction: column; gap: 3px; }
+      .senseHead .modwrap select { min-width: 130px; font-weight: 700; }
+      .senseHead .spacer { flex: 1; }
+
+      .subtabs { display: flex; gap: 7px; margin-bottom: 14px; }
+      .subtab { padding: 5px 13px; border: 1px solid var(--line); background: var(--panel2); cursor: pointer; font-size: 10px; text-transform: uppercase; letter-spacing: 1.1px; color: var(--muted); }
+      .subtab.active { background: var(--ink); color: var(--bg); font-weight: 700; }
+
+      .params { display: flex; flex-wrap: wrap; gap: 18px 22px; align-items: flex-end; }
+      .empty { color: var(--muted); font-size: 12px; font-style: italic; }
+      .foot { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 14px; }
+      .foot code { background: var(--panel2); border: 1px solid var(--line); padding: 1px 5px; }
+    </style>
+    <script type="module" crossorigin src="./assets/index-BjL7rb2N.js"></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topline">
+        <h1>becoming <b>many</b> synth</h1>
+        <div class="sub">sinn-layer × zuweisbare module · ein tab pro sinn · global-modul für alle</div>
+      </div>
+
+      <div class="panel">
+        <div class="front" id="front"></div>
+        <div class="harmony" id="harmony"></div>
+      </div>
+
+      <div class="cols">
+        <div class="side">
+          <div class="panel">
+            <h2>Szenen</h2>
+            <div class="scenes" id="scenes"></div>
+          </div>
+          <div class="panel">
+            <h2>Signal</h2>
+            <canvas id="scope" class="viz"></canvas>
+            <canvas id="spectro" class="viz" style="margin-top:8px"></canvas>
+          </div>
+        </div>
+        <div class="main">
+          <div class="tabs" id="tabs"></div>
+          <div class="tabcontent" id="tabcontent">
+            <div class="empty">„erwecken" drücken, um die Sinne zu aktivieren.</div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">engine <code>src/engine/</code> · 12 module · api &amp; integration <code>README.md</code></div>
+    </div>
+  </body>
+</html>

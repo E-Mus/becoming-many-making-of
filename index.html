@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="de">
+<head><script src="/becoming-many-making-of/sw-register.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Becoming Many – Making-of</title>
+<link rel="icon" href="/becoming-many-making-of/hub/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/becoming-many-making-of/hub/style.css">
+</head>
+<body class="mode-bm">
+<canvas class="air" id="air" aria-hidden="true"></canvas>
+
+<!-- ============ Übersicht ============ -->
+<main id="home">
+  <header class="home-bar at-top">
+    <span class="wordmark">Becoming Many <em>Making-of</em></span>
+    <div class="home-tools"><button type="button" class="mute-btn" data-mute aria-label="Ton aus" title="Ton an/aus (⌥ S)"><svg viewBox="0 0 24 24" class="on"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg><svg viewBox="0 0 24 24" class="off"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg></button><div class="mode-switch" role="radiogroup" aria-label="Darstellung">
+      <button type="button" role="radio" data-mode="bm">Becoming Many</button>
+      <button type="button" role="radio" data-mode="original">Original</button>
+    </div></div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-media" aria-hidden="true">
+      <video class="hero-video" src="/becoming-many-making-of/hub/media/gameplay.mp4" poster="/becoming-many-making-of/hub/media/gameplay.jpg" muted loop playsinline preload="auto"></video>
+    </div>
+    <h1 class="title">Becoming Many</h1>
+    <p class="subtitle">Making-of</p>
+    <p class="lede">Eine VR-Installation über die Sinne anderer Lebewesen. Liegend auf dem Flugsimulator ICAROS
+      steuert man mit dem eigenen Körper durch eine Welt, die weiß und fast leer beginnt. Nach und nach wird
+      sichtbar, was uns sonst verborgen bleibt: Gerüche treiben durch die Landschaft, jede Bewegung zieht eine
+      Spur, über den Himmel legt sich das Magnetfeld. Entstanden an der HTW Berlin, zu sehen im Futurium.</p>
+    <a class="cta" href="/becoming-many-making-of/hub/praesentation.html">Präsentation starten <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </section>
+
+  <section class="timeline-wrap" id="weg" aria-label="Entwicklungsweg">
+    <div class="section-head"><h2>Der Weg</h2><p>Drei Versionen auf einer Linie. Darüber die Experimente, darunter die Termine. Hineinzoomen zeigt die Vorschaubilder.</p></div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <section aria-label="Finale">
+    <div class="section-head"><h2>Das Finale</h2><p>Die Experience als Ganzes, so wie sie gezeigt wird.</p></div>
+    <div id="finale"></div>
+  </section>
+
+  <section aria-label="Experimente">
+    <div class="section-head"><h2>Experimente</h2><p>Einzelne Studien, aus denen die Welt entstanden ist.</p></div>
+    <div class="chips" id="exp-filter" role="toolbar" aria-label="Nach Sinn filtern"></div>
+    <div class="grid" id="experiments"></div>
+  </section>
+
+  <section aria-label="Sinne">
+    <div class="section-head"><h2>Wie die Sinne gewachsen sind</h2><p>Jeder Sinn vom ersten Experiment bis in die Show.</p></div>
+    <div class="lineage" id="lineage"></div>
+  </section>
+
+  <section class="archive" aria-label="Archiv">
+    <div class="section-head"><h2>Archiv</h2><p>Die Zwischenstände der drei Versionen, so wie sie damals liefen.</p></div>
+    <div id="archive"></div>
+  </section>
+
+
+  <footer class="home-foot">
+    <span><kbd>Bild ↓</kbd> <kbd>Bild ↑</kbd> oder <kbd>⌥ →</kbd> <kbd>⌥ ←</kbd> blättern</span>
+    <span><kbd>⌥ O</kbd> Original / Becoming Many</span>
+    <span><kbd>⌥ I</kbd> Bedienfeld</span>
+    <span><kbd>⌥ H</kbd> Übersicht</span>
+    <span><kbd>⌥ F</kbd> Vollbild</span>
+    <span><kbd>⌥ S</kbd> Ton an/aus</span>
+  </footer>
+</main>
+
+<!-- ============ Ansicht eines Projekts ============ -->
+<div id="viewer" hidden>
+  <div id="stage"></div>
+  <div id="stage-overlay"></div>
+
+  <header id="topbar" class="chrome">
+    <button type="button" class="tb-home" id="tb-home" aria-label="Zur Übersicht">
+      <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg><span>Übersicht</span>
+    </button>
+    <div class="tb-crumb" id="tb-crumb"></div>
+    <div class="tb-right">
+      <button type="button" class="mute-btn tb-icon" data-mute aria-label="Ton aus" title="Ton an/aus (⌥ S)"><svg viewBox="0 0 24 24" class="on"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg><svg viewBox="0 0 24 24" class="off"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg></button>
+      <div class="mode-switch small" role="radiogroup" aria-label="Darstellung">
+        <button type="button" role="radio" data-mode="bm">Becoming Many</button>
+        <button type="button" role="radio" data-mode="original">Original</button>
+      </div>
+      <button type="button" class="tb-icon" id="tb-prev" aria-label="Vorheriges Projekt"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button type="button" class="tb-icon" id="tb-next" aria-label="Nächstes Projekt"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </header>
+
+  <aside id="panel" class="chrome" aria-label="Bedienfeld">
+    <div class="panel-head">
+      <div class="panel-kind" id="panel-kind"></div>
+      <button type="button" class="panel-collapse" id="panel-collapse" aria-label="Bedienfeld einklappen"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button>
+    </div>
+    <h2 id="panel-title"></h2>
+    <p class="panel-summary" id="panel-summary"></p>
+    <details class="panel-more"><summary>Mehr dazu</summary><p id="panel-desc"></p><dl id="panel-meta"></dl></details>
+    <div class="panel-views" id="panel-views" role="tablist"></div>
+    <div class="panel-controls" id="panel-controls"></div>
+    <p class="panel-hint" id="panel-hint"></p>
+  </aside>
+
+  <div id="mini" class="chrome">
+    <button type="button" id="mini-info" class="mini-name"><span class="dot" id="mini-dot"></span><span id="mini-title"></span></button>
+    <div class="mode-switch small" role="radiogroup" aria-label="Darstellung">
+      <button type="button" role="radio" data-mode="bm">BM</button>
+      <button type="button" role="radio" data-mode="original">Original</button>
+    </div>
+    <button type="button" class="mute-btn tb-icon" data-mute aria-label="Ton aus" title="Ton an/aus (⌥ S)"><svg viewBox="0 0 24 24" class="on"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg><svg viewBox="0 0 24 24" class="off"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg></button>
+    <button type="button" class="tb-icon" id="mini-home" aria-label="Zur Übersicht"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v10h12V10"/></svg></button>
+    <button type="button" class="tb-icon" id="mini-prev" aria-label="Vorheriges Projekt"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button type="button" class="tb-icon" id="mini-next" aria-label="Nächstes Projekt"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+
+  <section id="mini-card" class="chrome hidden" aria-live="polite">
+    <div class="panel-kind" id="mini-kind"></div>
+    <h2 id="mini-card-title"></h2>
+    <p id="mini-card-text"></p>
+    <p class="panel-hint" id="mini-card-hint"></p>
+  </section>
+</div>
+
+<div id="toast" role="status"></div>
+<script type="module" src="/becoming-many-making-of/hub/app.js"></script>
+</body>
+</html>

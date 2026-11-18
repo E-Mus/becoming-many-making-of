@@ -1,0 +1,1 @@
+import{x as e,m as a,k as t,y as l,u}from"./Dwsebjs_.js";function c(n){t===null&&e(),l&&t.l!==null?s(t).m.push(n):a(()=>{const o=u(n);if(typeof o=="function")return o})}function i(n){t===null&&e(),c(()=>()=>u(n))}function s(n){var o=n.l;return o.u??={a:[],b:[],m:[]}}export{i as a,c as o};

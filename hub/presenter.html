@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="de">
+<head><script src="/becoming-many-making-of/sw-register.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notizen – Becoming Many</title>
+<link rel="icon" href="/becoming-many-making-of/hub/favicon.svg" type="image/svg+xml">
+<style>
+@font-face { font-family: "Rubik"; font-weight: 300 900; src: url("/becoming-many-making-of/hub/fonts/rubik-latin.woff2") format("woff2"); }
+/* Gestaltung wie der Web-Release: weiß, Rubik, Versalien, dünne Linien */
+:root { --bg: #fff; --panel: #f4f4f4; --line: rgba(32,33,38,.14); --ink: #05070c; --soft: rgba(5,7,12,.5); --accent: #05070c; --warn: #c98a12; --late: #c7392f; font-family: "Rubik", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); }
+body { display: grid; grid-template-columns: minmax(0, 1fr) 330px; grid-template-rows: auto 1fr auto; height: 100vh; }
+header { grid-column: 1 / -1; display: flex; align-items: center; gap: 24px; padding: 16px 26px; border-bottom: 1px solid var(--line); }
+header h1 { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; flex: 1; }
+.clock { font-size: 30px; font-weight: 300; font-variant-numeric: tabular-nums; }
+.clock small { font-size: 13px; color: var(--soft); margin-left: 6px; }
+.clock.warn { color: var(--warn); } .clock.late { color: var(--late); }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 8px 0; font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; opacity: .6; transition: opacity .16s; }
+button:hover { opacity: 1; }
+main { padding: 34px 40px; overflow-y: auto; }
+.kicker { font-size: 11px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--soft); margin: 0; }
+.current { font-size: 38px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 10px 0 24px; line-height: 1.05; }
+.notes { font-size: 25px; line-height: 1.55; max-width: 46ch; white-space: pre-wrap; }
+.notes mark { background: rgba(240,181,61,.25); color: inherit; padding: 0 4px; border-radius: 3px; }
+.next { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
+.next b { color: var(--ink); font-weight: 700; }
+aside { border-left: 1px solid var(--line); overflow-y: auto; padding: 14px; }
+aside ol { list-style: none; margin: 0; padding: 0; }
+aside li button { width: 100%; text-align: left; border-radius: 6px; padding: 9px 12px; display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; font-size: 11px; letter-spacing: .14em; opacity: .75; }
+aside li button:hover { background: var(--panel); opacity: 1; }
+aside li.done button { opacity: .35; }
+aside li.on button { background: var(--ink); color: var(--bg); opacity: 1; }
+aside .n, aside .m { font-variant-numeric: tabular-nums; opacity: .6; }
+footer { grid-column: 1 / -1; display: flex; gap: 24px; align-items: center; padding: 12px 26px; border-top: 1px solid var(--line); }
+footer .grow { flex: 1; color: var(--soft); font-size: 12px; }
+.bar { height: 2px; background: var(--line); overflow: hidden; width: 220px; }
+.bar i { display: block; height: 100%; background: var(--ink); width: 0; }
+.wait { color: var(--soft); font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">Becoming Many – Making-of</h1>
+  <div class="bar"><i id="progress"></i></div>
+  <div class="clock" id="clock">0:00<small>/ 15:00</small></div>
+  <button type="button" id="reset" title="Uhr auf 0 setzen">Uhr neu</button>
+</header>
+<main>
+  <div id="view"><p class="wait">Warte auf die Präsentation … Auf der Startseite „Präsentation starten“ klicken.</p></div>
+</main>
+<aside><ol id="list"></ol></aside>
+<footer>
+  <button type="button" id="prev">◀ Zurück</button>
+  <button type="button" id="next">Weiter ▶</button>
+  <span class="grow">Pfeiltasten, Leertaste oder Bild ↑/↓ blättern auch hier. Dieses Fenster auf den eigenen Bildschirm, die Präsentation auf den Beamer.</span>
+</footer>
+<script type="module">
+// Bekommt alles (Stationen, Notizen, Zeiten) über BroadcastChannel von der Präsentation.
+const ch = new BroadcastChannel("bm-tour");
+const $ = (id) => document.getElementById(id);
+const esc = (t) => String(t ?? "").replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+const fmt = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
+let list = [];
+let current = -1;
+let started = null;
+
+$("prev").onclick = () => ch.postMessage({ cmd: "step", dir: -1 });
+$("next").onclick = () => ch.postMessage({ cmd: "step", dir: 1 });
+$("reset").onclick = () => { started = Date.now(); };
+$("list").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) ch.postMessage({ cmd: "goto", index: Number(li.dataset.i) }); });
+addEventListener("keydown", (e) => {
+  if (["ArrowRight", "PageDown", "Space"].includes(e.code)) { e.preventDefault(); ch.postMessage({ cmd: "step", dir: 1 }); }
+  if (["ArrowLeft", "PageUp"].includes(e.code)) { e.preventDefault(); ch.postMessage({ cmd: "step", dir: -1 }); }
+});
+
+function renderList() {
+  $("list").innerHTML = list.map((s, i) => `<li data-i="${i}"><button type="button"><span class="n">${i + 1}</span><span>${s.live ? "▶ " : ""}${esc(s.label)}</span><span class="m">${s.minutes}′</span></button></li>`).join("");
+}
+
+ch.addEventListener("message", (e) => {
+  const m = e.data;
+  if (m?.type !== "stop") return;
+  if (m.list && JSON.stringify(m.list) !== JSON.stringify(list)) { list = m.list; renderList(); }
+  if (m.title) $("title").textContent = m.title;
+  current = m.index;
+  started ??= Date.now();
+  const notes = esc(m.notes).replace(/\[([^\]]+)\]/g, "<mark>$1</mark>");
+  $("view").innerHTML = `
+    <p class="kicker">Schritt ${m.index + 1} von ${m.total}${list[m.index]?.live ? " · Live" : ""}</p>
+    <h2 class="current">${esc(m.label)}</h2>
+    <div class="notes">${notes || "<span style='color:var(--soft)'>Keine Notizen.</span>"}</div>
+    <p class="next">${m.next ? `Als Nächstes: <b>${esc(m.next)}</b>` : "Letzter Schritt."}</p>`;
+  for (const li of $("list").children) {
+    const k = Number(li.dataset.i);
+    li.classList.toggle("on", k === m.index);
+    li.classList.toggle("done", k < m.index);
+  }
+  $("list").children[m.index]?.scrollIntoView({ block: "nearest" });
+  $("progress").style.width = `${((m.index + 1) / m.total) * 100}%`;
+});
+ch.postMessage({ cmd: "hello" });
+
+setInterval(() => {
+  const planned = list.reduce((a, s) => a + (s.minutes ?? 1), 0);
+  const sec = started ? (Date.now() - started) / 1000 : 0;
+  const due = list.slice(0, current + 1).reduce((a, s) => a + (s.minutes ?? 1), 0) * 60;
+  const clock = $("clock");
+  clock.innerHTML = `${fmt(sec)}<small>/ ${fmt(planned * 60)}</small>`;
+  clock.classList.toggle("warn", current >= 0 && sec > due);
+  clock.classList.toggle("late", planned > 0 && sec > planned * 60);
+}, 500);
+</script>
+</body>
+</html>
