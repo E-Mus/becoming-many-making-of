@@ -68,6 +68,9 @@ async function init() {
     fetch("/becoming-many-making-of/hub/history.json").then((r) => r.json()).catch(() => ({})),
     fetch("/becoming-many-making-of/hub/praesentation.json").then((r) => r.json()).catch(() => ({ steps: [] })),
   ]);
+  // „Becoming Many“ bricht nie um (wie das Logo)
+  const bind = (t) => (typeof t === "string" ? t.replace(/Becoming Many/g, "Becoming\u00a0Many") : t);
+  for (const p of projects) for (const k of ["title", "summary", "description"]) p[k] = bind(p[k]);
   state.history = history;
   state.deck = deck;
   const byDate = (a, b) => a.date.localeCompare(b.date);
@@ -603,7 +606,7 @@ function showHome() {
   state.current = null;
   $("#viewer").hidden = true;
   $("#home").hidden = false;
-  document.title = "Becoming Many – Making-of";
+  document.title = "Becoming Many – Making-of";
 }
 
 /* ================= Ton ================= */
@@ -645,7 +648,7 @@ async function openProject(project, viewId) {
   $("#home").hidden = true;
   $("#viewer").hidden = false;
   document.body.classList.toggle("dock-top", project.dock === "top");
-  document.title = `${project.title} – Becoming Many`;
+  document.title = `${project.title} – Becoming Many`;
 
   // Leiste & Bedienfeld
   const list = listFor(project);

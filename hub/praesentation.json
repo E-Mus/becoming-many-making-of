@@ -1,6 +1,6 @@
 {
   "_info": "Präsentation: Die Zeitleiste ist der rote Faden. Felder pro Schritt: hero (großer Titel), kicker/title/text (Bildunterschrift), view ('all' oder [von, bis]) zoomt die Zeitleiste, version (dieses Band betonen), highlight (Projekt-IDs), events (Ereignis-Namen), fade (andere abblenden, Standard true), cards (Projekt-IDs als Vorschau-Karten, 'id#ansicht' für eine bestimmte Ansicht; Klick oder Taste 1–9 zeigt sie live, Esc zurück), labels (weitere Experimente beschriften), media (Fotos und Videos rechts, Dateien aus hub/media/fotos: src, caption, date = Aufnahmetag, at = anderer Ort auf der Zeitleiste, speed = schneller abspielen; type 'tech' mit nodes zeigt eine Kette), credits (Abspann), background ('full' = Gameplay-Video im Hintergrund), minutes (Planzeit), notes (für das Notizen-Fenster; [Ergänzen: …] wird gelb markiert).",
-  "title": "Becoming Many – Making-of",
+  "title": "Becoming Many – Making-of",
   "background": {
     "video": "/becoming-many-making-of/hub/media/gameplay.mp4",
     "poster": "/becoming-many-making-of/hub/media/gameplay.jpg",
@@ -22,7 +22,7 @@
       "background": "full",
       "hero": {
         "kicker": "Making-of",
-        "title": "Becoming Many",
+        "title": "Becoming Many",
         "subtitle": "Eine immersive Reise durch nicht-menschliche Wahrnehmung"
       },
       "minutes": 0.6
@@ -70,7 +70,7 @@
       "label": "Technik",
       "kicker": "Wie es funktioniert",
       "title": "Alles im Browser",
-      "text": "Becoming Many ist eine Webseite. Die Welt baut three.js, eine JavaScript-Bibliothek für 3D-Grafik. Mehr braucht es nicht, um sie auf ICAROS, Brille oder Laptop zu bringen.",
+      "text": "Becoming Many ist eine Webseite. Die Welt baut three.js, eine JavaScript-Bibliothek für 3D-Grafik. Mehr braucht es nicht, um sie auf ICAROS, Brille oder Laptop zu bringen.",
       "view": "all",
       "fade": false,
       "media": [
@@ -344,7 +344,7 @@
       "background": "full",
       "hero": {
         "kicker": "Danke",
-        "title": "Becoming Many",
+        "title": "Becoming Many",
         "subtitle": "e-mus.github.io/becoming-many"
       },
       "minutes": 0.5

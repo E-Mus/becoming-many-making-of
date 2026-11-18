@@ -35,6 +35,8 @@ const [projects, hist, script] = await Promise.all([
   fetch("/becoming-many-making-of/hub/history.json").then((r) => r.json()),
   fetch("/becoming-many-making-of/hub/praesentation.json").then((r) => r.json()),
 ]);
+// „Becoming Many“ bricht nie um (wie das Logo)
+for (const p of projects) for (const k of ["title", "summary"]) if (typeof p[k] === "string") p[k] = p[k].replace(/Becoming Many/g, "Becoming\u00a0Many");
 S.projects = projects;
 S.history = hist;
 S.script = script;
@@ -635,7 +637,7 @@ function show(index) {
   toggleData("hero", Boolean(step.hero));
   if (step.hero) {
     $("hero-kicker").textContent = step.hero.kicker ?? "";
-    $("hero-title").textContent = step.hero.title ?? "Becoming Many";
+    $("hero-title").textContent = step.hero.title ?? "Becoming Many";
     $("hero-sub").textContent = step.hero.subtitle ?? "";
   }
 
@@ -708,7 +710,7 @@ function openLive(id, viewId, { fromStep = false } = {}) {
   S.liveFrame = f;
   S.liveFromStep = fromStep;
   $("live-dot").style.background = SENSE[p.senses?.[0]] ?? "var(--accent)";
-  $("live-title").textContent = p.category === "finale" ? "Becoming Many · Web-Release" : p.title;
+  $("live-title").textContent = p.category === "finale" ? "Becoming Many · Web-Release" : p.title;
   $("live-meta").textContent = `${fmt(p.date)}${p.version ? ` · Version ${p.version}` : ""}${p.release && p.release !== "Web-Release" ? ` · ${p.release}` : ""}`;
   $("live").hidden = false;
   setBg(false); // Hintergrund pausieren, Grafikkarte frei

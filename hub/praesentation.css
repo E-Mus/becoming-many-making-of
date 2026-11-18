@@ -35,7 +35,8 @@ body[data-bg="full"] #veil, body[data-bg="full"] #air { opacity: 0; }
    Weiß mit Differenz-Mischung: Die Schrift nimmt über heller Welt Dunkel an, über dunkler Hell. */
 #hero { position: fixed; left: var(--pad); right: var(--pad); bottom: 11vh; color: #fff; mix-blend-mode: difference; pointer-events: none; transition: opacity 1s var(--ease), transform 1.2s var(--ease); }
 .hero-kicker { margin: 0 0 2vh; font-size: clamp(11px, 1vw, 16px); font-weight: 600; letter-spacing: .32em; text-transform: uppercase; }
-.hero-title { margin: 0; font-size: clamp(56px, 10.5vw, 210px); font-weight: 700; line-height: .9; letter-spacing: .04em; text-transform: uppercase; }
+/* „Becoming Many“ steht immer in einer Zeile, wie das Logo (gleiche Maße wie auf der Startseite) */
+.hero-title { margin: 0 0 0 -.04em; font-size: 10.85vw; font-weight: 700; line-height: .84; letter-spacing: -.01em; text-transform: uppercase; white-space: nowrap; }
 .hero-sub { margin: 2.4vh 0 0; font-size: clamp(11px, 1.1vw, 18px); font-weight: 600; letter-spacing: .26em; text-transform: uppercase; max-width: 60ch; }
 body:not([data-hero]) #hero { opacity: 0; transform: translateY(-3vh); }
 
