@@ -154,238 +154,191 @@ function resumeAudio() {
 }
 
 /* ================= Zeitleiste ================= */
+// Gleiche Zeitleiste wie auf der Startseite (hub/timeline.css): eine Linie, die bei den
+// Versionen dick wird, Striche für Stände und Patches, farbige Punkte für Experimente,
+// Termine darunter. Jede Folie zoomt auf ihren Abschnitt und hebt hervor, worum es geht.
 const tl = $("tl");
-const geo = () => {
-  const H = tl.clientHeight, W = tl.clientWidth;
-  const axisY = Math.round(H * 0.42);
-  const bandY = axisY + 30, bandH = Math.max(46, Math.round(H * 0.13));
-  return { W, H, axisY, expY: axisY - 34, bandY, bandH, stageY: bandY + Math.round(bandH * 0.64), msY: bandY + bandH - 7, stageLblY: bandY + bandH + 10, eventY: H - 30 };
-};
+const TL_START = new Date("2026-03-30T12:00:00").getTime();
+const TL_END = new Date("2026-11-30T12:00:00").getTime();
+const MON = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+const EVENT_SPACE = 112; // Platz unter der Linie für die Termine
+const CW = 132, CH = Math.round(CW * 0.625) + 36; // Vorschaukarten der Experimente
+const TLV = { view: null, pos: [], dots: [], cards: [], ticks: null, leads: null };
 
 function buildTimeline() {
-  const versions = hist.versions ?? [];
-  const all = [...projects.flatMap((p) => [p.date, p.since]), ...versions.flatMap((v) => [v.from, v.to])].filter(Boolean).sort();
-  const start = new Date(`${all[0]}T12:00:00`); start.setDate(1);
-  const end = new Date(`${all.at(-1)}T12:00:00`); end.setDate(end.getDate() + 12);
-  S.full = [start.getTime() - 4 * DAY, end.getTime()];
-  const add = (cls, html = "", data = {}) => {
-    const el = document.createElement(data.tag ?? "div");
-    el.className = cls;
-    el.innerHTML = html;
-    tl.append(el);
-    const item = { el, ...data };
-    S.els.push(item);
-    return item;
-  };
-
-  add("lane", "Experimente", { kind: "fixed", y: "expTitle" });
-  add("axis", "", { kind: "axis" });
-
-  // Monate (große Striche) und Wochen (kleine Striche)
-  for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
-    if (d.getDate() === 1) {
-      add("tick", "", { kind: "tick", t: d.getTime() });
-      add("tick-label", MONTHS[d.getMonth()], { kind: "ticklabel", t: d.getTime() });
-    } else if (d.getDay() === 1) add("tick minor", "", { kind: "tick", t: d.getTime(), minor: true });
-  }
-
-  for (const v of versions) {
-    add(`band v${v.id}`, `<span>V${v.id} <b>${esc(v.name)}</b></span>`, { kind: "band", t0: t(v.from), t1: t(v.to), version: v.id });
-  }
-  // Stände und Meilensteine eines Tages werden über diesen Tag verteilt (nach Release-Nummer),
-  // damit sie beim Hineinzoomen nebeneinander liegen
-  const stagesAll = projects.filter((p) => p.category !== "experimente");
-  const dayItems = {};
-  for (const p of stagesAll) (dayItems[p.date] ??= []).push({ key: `p:${p.id}`, sort: p.release ?? p.title });
-  for (const m of hist.milestones ?? []) (dayItems[m.date] ??= []).push({ key: `m:${m.label}`, sort: m.label });
-  const when = {};
-  for (const [date, list] of Object.entries(dayItems)) {
-    list.sort((a, b) => a.sort.localeCompare(b.sort, "de", { numeric: true }));
-    list.forEach((it, i) => { when[it.key] = t(date) - 0.42 * DAY + ((i + 0.5) / list.length) * 0.84 * DAY; });
-  }
-  for (const m of hist.milestones ?? []) {
-    const tm = when[`m:${m.label}`];
-    add("ms", "", { kind: "ms", t: tm, label: m.label });
-    add("lbl down ms-lbl", `${esc(m.label)}<small>${fmt(m.date)}</small>`, { kind: "mslbl", t: tm, label: m.label });
-  }
-
-  // Experimente: Punkte, bei nahen Daten übereinander gestapelt
+  S.full = [TL_START, TL_END];
+  const versions = hist.versions ?? [], events = hist.events ?? [], patches = hist.milestones ?? [];
   const exps = projects.filter((p) => p.category === "experimente").sort((a, b) => a.date.localeCompare(b.date));
-  const levels = [];
+  const stands = projects.filter((p) => p.category === "archiv").sort((a, b) => a.date.localeCompare(b.date));
+  const finale = projects.find((p) => p.category === "finale");
+  let h = `<div class="tl2-view"><div class="tl2-track"><div class="tl2-ticks"></div><div class="tl2-line"></div>`;
+  for (let m = 3; m <= 10; m++) {
+    const iso = `2026-${String(m + 1).padStart(2, "0")}-01`, next = `2026-${String(m + 2).padStart(2, "0")}-01`;
+    h += `<span class="tl2-month" data-x="${iso}" data-x2="${next}" data-sticky>${MON[m]}</span>`;
+  }
+  for (const v of versions) {
+    h += `<div class="tl2-version" data-x="${v.from}" data-x2="${v.to}" data-version="${v.id}"></div>`;
+    h += `<span class="tl2-vlabel" data-x="${v.from}" data-x2="${v.to}" data-version="${v.id}" data-sticky>V${v.id} <b>${esc(v.name)}</b></span>`;
+  }
+  for (const m of patches) h += `<i class="tl2-patch" data-x="${m.date}"></i>`;
+  for (const p of stands) h += `<button type="button" class="tl2-stand" data-x="${p.date}" data-id="${p.id}" data-open="${p.id}" title="${esc(p.title)} · ${fmt(p.date)}"></button>`;
+  if (finale) h += `<button type="button" class="tl2-finale" data-x="${finale.date}" data-id="${finale.id}" data-open="${finale.id}" title="Finale · ${fmt(finale.date)}"></button>`;
+  h += `<svg class="tl2-leads" aria-hidden="true"></svg>`;
   for (const p of exps) {
-    let lv = 0;
-    while (levels.some((o) => o.lv === lv && Math.abs(o.t - t(p.date)) < 3.2 * DAY)) lv++;
-    levels.push({ lv, t: t(p.date) });
-    add("dot", "", { kind: "dot", t: t(p.date), level: lv, id: p.id }).el.style.background = SENSE[p.senses?.[0]] ?? "var(--accent)";
-    add("lbl up", `<b>${esc(p.title)}</b><small>${fmt(p.date)}</small>`, { kind: "dotlbl", t: t(p.date), level: lv, id: p.id });
+    const img = p.hasThumb ? `<img src="/becoming-many-making-of/thumb/${p.id}.jpg" alt="" loading="lazy">` : "";
+    h += `<button type="button" class="tl2-card" data-card="${p.date}" data-id="${p.id}" data-open="${p.id}" tabindex="-1"><span class="thumb">${img}</span><span class="tl2-card-t">${esc(p.title)}</span><small>${fmt(p.date)}</small></button>`;
   }
-
-  // Stände der Versionen (Archiv + Finale) auf den Bändern
-  const stages = projects.filter((p) => p.category !== "experimente").sort((a, b) => a.date.localeCompare(b.date) || (a.release ?? "").localeCompare(b.release ?? "", "de", { numeric: true }));
-  for (const p of stages) {
-    const tm = when[`p:${p.id}`];
-    const final = p.category === "finale";
-    add(`stage${final ? " final" : ""}`, "", { kind: "stage", t: tm, id: p.id });
-    add("lbl down", `<b>${esc(final ? "Finale · Web" : p.release ?? p.title)}</b><small>${fmt(p.date)}</small>`, { kind: "stagelbl", t: tm, id: p.id });
-  }
-
-  // Ereignisse: Fahnen unten mit gestrichelter Linie bis zur Achse
-  for (const ev of hist.events ?? []) {
-    const a = t(ev.date), b = ev.to ? t(ev.to) : a;
-    add("event-line", "", { kind: "evline", t: (a + b) / 2, label: ev.label });
-    add("event", `<i></i>${esc(ev.label)} <small>${fmt(ev.date)}</small>`, { kind: "event", t: (a + b) / 2, label: ev.label });
-  }
+  for (const p of exps) h += `<button type="button" class="tl2-exp" data-dot="${p.date}" data-id="${p.id}" data-open="${p.id}" style="background:${SENSE[p.senses?.[0]] ?? "var(--accent)"}" title="${esc(p.title)} · ${fmt(p.date)}"></button>`;
+  events.forEach((e, k) => {
+    const y = 50 + (k % 2) * 34;
+    h += `<span class="tl2-elead" data-x="${e.date}" style="top:calc(var(--line) + 6px);height:${y - 6}px"></span>`;
+    h += `<span class="tl2-event" data-x="${e.date}" data-event data-label="${esc(e.label)}" style="top:calc(var(--line) + ${y}px)"><b>${esc(e.label)}</b><small>${fmt(e.date)}</small></span>`;
+  });
+  h += `</div></div>`;
+  tl.innerHTML = h;
+  const view = TLV.view = tl.querySelector(".tl2-view");
+  TLV.pos = [...view.querySelectorAll("[data-x]")];
+  for (const n of TLV.pos) { n._t = t(n.dataset.x); if (n.dataset.x2) n._t2 = t(n.dataset.x2); }
+  TLV.dots = [...view.querySelectorAll("[data-dot]")].map((n) => ({ n, t: t(n.dataset.dot), id: n.dataset.id }));
+  TLV.cards = [...view.querySelectorAll("[data-card]")];
+  TLV.ticks = view.querySelector(".tl2-ticks");
+  TLV.leads = view.querySelector(".tl2-leads");
+  for (const n of view.querySelectorAll("[data-sticky]")) n._w = n.offsetWidth || 80;
 }
 
-function layout(domain, { labels = true } = {}) {
-  const g = geo();
-  const [d0, d1] = domain;
-  const span = d1 - d0;
-  const x = (time) => ((time - d0) / span) * g.W;
-  S.xf = x; S.g = g;
-  const zoomed = span < 150 * DAY;
-  const showMinor = span < 100 * DAY;
-  const hl = S.highlight ?? new Set();
+/* Einreihige Anordnung ohne Überlappung mit kleinster Verschiebung (wie auf der Startseite) */
+function placeRow(centers, w, gap) {
+  const pitch = w + gap, blocks = [];
+  for (const c of centers) {
+    blocks.push({ n: 1, sum: c - w / 2 });
+    while (blocks.length > 1) {
+      const p = blocks[blocks.length - 2], q = blocks[blocks.length - 1];
+      if (p.sum / p.n + p.n * pitch <= q.sum / q.n) break;
+      blocks.splice(-2, 2, { n: p.n + q.n, sum: p.sum + q.sum - q.n * p.n * pitch });
+    }
+  }
+  const out = [];
+  for (const b of blocks) for (let j = 0; j < b.n; j++) out.push(b.sum / b.n + j * pitch);
+  return out;
+}
 
-  for (const it of S.els) {
-    const s = it.el.style;
-    switch (it.kind) {
-      case "fixed":
-        s.left = "0px";
-        s.top = `${it.y === "expTitle" ? 0 : g.bandY - 22}px`;
-        break;
-      case "axis": s.top = `${g.axisY - 1}px`; break;
-      case "tick": case "ticklabel": {
-        const px = x(it.t);
-        const vis = px > -40 && px < g.W + 40 && (!it.minor || showMinor);
-        s.display = vis ? "" : "none";
-        s.left = `${px}px`;
-        s.top = it.kind === "tick" ? `${g.axisY - (it.minor ? 3 : 7)}px` : `${g.axisY + 10}px`;
-        break;
-      }
-      case "band": {
-        const a = Math.max(x(it.t0), -30), b = Math.min(x(it.t1), g.W + 30);
-        s.display = b > -20 && a < g.W + 20 ? "" : "none";
-        s.left = `${a}px`; s.width = `${Math.max(b - a, 4)}px`;
-        s.top = `${g.bandY}px`; s.height = `${g.bandH}px`;
-        it.el.classList.toggle("dim", S.focusVersion != null && it.version !== S.focusVersion);
-        break;
-      }
-      case "ms": {
-        const px = x(it.t);
-        s.display = px > -20 && px < g.W + 20 ? "" : "none";
-        s.left = `${px}px`; s.top = `${g.msY}px`;
-        it.el.title = it.label;
-        break;
-      }
-      case "dot": case "stage": {
-        const px = x(it.t);
-        s.display = px > -30 && px < g.W + 30 ? "" : "none";
-        s.left = `${px}px`;
-        s.top = `${it.kind === "dot" ? g.expY - it.level * 21 : g.stageY}px`;
-        it.el.classList.toggle("hl", hl.has(it.id));
-        it.el.classList.toggle("faded", hl.size > 0 && !hl.has(it.id) && S.fade);
-        it.el.dataset.open = it.id;
-        break;
-      }
-      case "dotlbl": case "stagelbl": {
-        const px = x(it.t);
-        const inView = px > -10 && px < g.W - 60;
-        s.display = inView ? "" : "none";
-        s.left = `${px + (it.kind === "dotlbl" ? 6 : -2)}px`;
-        s.top = `${it.kind === "dotlbl" ? g.expY - it.level * 21 - 12 : g.stageLblY}px`;
-        // Experimente sind dicht gestapelt: nur die Karten des Schritts bekommen eine Beschriftung
-        const show = labels && inView && (it.kind === "dotlbl" ? S.labelIds.has(it.id) : zoomed || hl.has(it.id));
-        it.el.classList.toggle("show", show);
-        it.el.classList.toggle("hl-l", hl.has(it.id));
-        it.el.classList.toggle("faded", hl.size > 0 && !hl.has(it.id) && S.fade);
-        break;
-      }
-      case "mslbl": {
-        // Meilensteine (ohne eigene Ansicht) nur im Zoom und nur, wenn kein Stand am selben Ort steht
-        const px = x(it.t);
-        const inView = px > -10 && px < g.W - 60;
-        s.display = inView ? "" : "none";
-        s.left = `${px - 1}px`; s.top = `${g.stageLblY}px`;
-        const crowded = S.els.some((o) => o.kind === "stage" && Math.abs(x(o.t) - px) < 14);
-        it.el.classList.toggle("show", labels && inView && span < 80 * DAY && !crowded);
-        break;
-      }
-      case "evline": {
-        const px = x(it.t);
-        s.display = px > -20 && px < g.W + 20 ? "" : "none";
-        s.left = `${px}px`; s.top = `${g.axisY}px`; s.height = `${g.eventY - g.axisY}px`;
-        break;
-      }
-      case "event": {
-        const px = x(it.t);
-        s.display = px > -20 && px < g.W + 20 ? "" : "none";
-        s.left = `${px}px`; s.top = `${g.eventY}px`;
-        const w = it.el.offsetWidth || 200;
-        it.el.classList.toggle("flip", px + w > g.W);
-        it.el.classList.toggle("hl-e", S.events?.has(it.label));
-        break;
-      }
+function layout(domain) {
+  const view = TLV.view;
+  if (!view) return;
+  const W = view.clientWidth || tl.clientWidth || 1000;
+  const LINE = Math.max(60, tl.clientHeight - EVENT_SPACE);
+  view.style.setProperty("--line", `${LINE}px`);
+  view.style.setProperty("--cw", `${CW}px`);
+  const [d0, d1] = domain, span = d1 - d0;
+  const x = (ms) => ((ms - d0) / span) * W;
+  S.xf = x; S.g = { W, axisY: LINE };
+  const k = (TL_END - TL_START) / span;
+  view.classList.toggle("zoomed", k > 1.01);
+  const hl = S.highlight ?? new Set();
+  const fade = S.fade && hl.size > 0;
+  const evs = S.events ?? new Set();
+
+  for (const n of TLV.pos) {
+    const px = x(n._t);
+    if (n._t2 !== undefined) {
+      const x2 = x(n._t2);
+      if (n.hasAttribute("data-sticky")) n.style.left = `${Math.max(Math.min(Math.max(px, 0), x2 - n._w - 10), px)}px`;
+      else { n.style.left = `${px}px`; n.style.width = `${Math.max(x2 - px, 6)}px`; }
+    } else n.style.left = `${px}px`;
+    if (n.dataset.event !== undefined || n.classList.contains("tl2-elead")) n.style.display = px < -4 || px > W + 4 ? "none" : "";
+    if (n.dataset.event !== undefined) {
+      n.classList.toggle("flip", px > W - 260);
+      n.classList.toggle("hl-e", evs.has(n.dataset.label));
+      n.classList.toggle("dim", evs.size > 0 && !evs.has(n.dataset.label));
+    }
+    if (n.dataset.version) n.classList.toggle("dim", S.focusVersion != null && Number(n.dataset.version) !== S.focusVersion);
+    if (n.dataset.id) { n.classList.toggle("hl", hl.has(n.dataset.id)); n.classList.toggle("faded", fade && !hl.has(n.dataset.id)); }
+  }
+  // Termin-Linien mit ihren Terminen ab- und aufblenden
+  for (const n of view.querySelectorAll(".tl2-elead")) {
+    const ev = n.nextElementSibling;
+    n.classList.toggle("dim", ev?.classList.contains("dim"));
+  }
+
+  // Tage und Wochen, sobald genug Platz ist
+  const ppd = W / (span / DAY);
+  let ticks = "";
+  if (ppd >= 10) {
+    for (let ms = Math.floor((d0 - DAY) / DAY) * DAY + DAY / 2; ms <= d1 + DAY; ms += DAY) {
+      const d = new Date(ms), monday = d.getDay() === 1;
+      if (!monday && ppd < 34) continue;
+      ticks += `<span class="tl2-tick${monday ? " week" : ""}" style="left:${x(ms)}px">${d.getDate()}</span>`;
     }
   }
-  // Stand- und Meilenstein-Beschriftungen unter dem Band: zu dichte auslassen (hervorgehobene zuerst)
-  if (labels) {
-    const shown = S.els.filter((e) => (e.kind === "stagelbl" || e.kind === "mslbl") && e.el.classList.contains("show"))
-      .map((e) => ({ e, px: x(e.t), pri: (hl.has(e.id) ? 2 : 0) + (e.kind === "stagelbl" ? 1 : 0) }))
-      .sort((a, b) => b.pri - a.pri || a.px - b.px);
-    const taken = [];
-    for (const l of shown) {
-      if (taken.some((px) => Math.abs(px - l.px) < 30)) l.e.el.classList.remove("show");
-      else taken.push(l.px);
-    }
+  TLV.ticks.innerHTML = ticks;
+
+  // Experimente: über der Linie, bei engem Abstand gestapelt
+  const placed = [], dotAt = new Map();
+  for (const d of TLV.dots) {
+    const px = x(d.t);
+    let row = 0;
+    while (placed.some((q) => q.row === row && Math.abs(q.px - px) < 11)) row++;
+    placed.push({ px, row });
+    const y = 46 + row * 12;
+    dotAt.set(d.id, { px, y });
+    d.n.style.left = `${px}px`;
+    d.n.style.top = `calc(var(--line) - ${y}px)`;
+    d.n.classList.toggle("hl", hl.has(d.id));
+    d.n.classList.toggle("faded", fade && !hl.has(d.id));
   }
-  // Nahe Experiment-Beschriftungen: die linke kippt nach links, damit sie sich nicht überlagern
-  if (labels) {
-    const ups = S.els.filter((e) => e.kind === "dotlbl" && e.el.classList.contains("show")).map((e) => ({ e, px: x(e.t) })).sort((a, b) => a.px - b.px);
-    ups.forEach((u, i) => u.e.el.classList.toggle("left", i < ups.length - 1 && ups[i + 1].px - u.px < 90));
+
+  // Vorschaukarten nur für die Experimente, um die es auf der Folie geht (nicht bei Bildern)
+  const want = document.body.dataset.media === undefined ? TLV.cards.filter((n) => S.labelIds.has(n.dataset.id)) : [];
+  for (const n of TLV.cards) n.classList.toggle("show", want.includes(n));
+  let paths = "";
+  if (want.length) {
+    const rows = want.length > 3 ? [want.filter((_, i) => i % 2 === 0), want.filter((_, i) => i % 2 === 1)] : [want];
+    rows.forEach((list, r) => {
+      const xs = placeRow(list.map((n) => dotAt.get(n.dataset.id).px), CW, 14);
+      let lo = 0;
+      for (let j = 0; j < xs.length; j++) { xs[j] = Math.max(xs[j], lo); lo = xs[j] + CW + 14; }
+      let hi = W - CW;
+      for (let j = xs.length - 1; j >= 0; j--) { xs[j] = Math.min(xs[j], hi); hi = xs[j] - CW - 14; }
+      const bottom = 92 + r * (CH + 14);
+      list.forEach((n, j) => {
+        n.style.left = `${xs[j]}px`;
+        n.style.top = `calc(var(--line) - ${bottom + CH}px)`;
+        n.style.height = `${CH}px`;
+        const cx = xs[j] + CW / 2, d = dotAt.get(n.dataset.id);
+        paths += `M${cx} ${600 - bottom}V${600 - bottom + 10}L${d.px} ${600 - d.y + 1}`;
+      });
+    });
   }
-  // Ereignisse, die sich überlappen würden, in eine zweite Reihe
-  const compact = document.body.dataset.media !== undefined;
-  const evs = S.els.filter((e) => e.kind === "event" && e.el.style.display !== "none").sort((a, b) => a.t - b.t);
-  let lastRight = -Infinity, row = 0;
-  for (const e of evs) {
-    const px = x(e.t);
-    const w = e.el.offsetWidth;
-    const left = e.el.classList.contains("flip") ? px - w : px;
-    row = left < lastRight + 12 ? row + 1 : 0;
-    e.el.style.top = `${compact ? g.eventY + row * 22 : g.eventY - row * 40}px`;
-    lastRight = left + w;
-  }
+  TLV.leads.innerHTML = paths ? `<path d="${paths}"/>` : "";
+  TLV.leads.classList.toggle("on", Boolean(paths));
   drawLeads();
 }
 
-function zoomTo(target, ms = 1500) {
+function zoomTo(target, ms = 1400) {
   cancelAnimationFrame(S.anim);
   const from = S.domain ?? target;
+  // gleichmäßig zoomen: Mitte linear, Ausschnittsbreite logarithmisch
+  const c1 = (from[0] + from[1]) / 2, c2 = (target[0] + target[1]) / 2;
+  const s1 = Math.log(from[1] - from[0]), s2 = Math.log(target[1] - target[0]);
   const t0 = performance.now();
-  for (const it of S.els) if (it.kind === "dotlbl" || it.kind === "stagelbl" || it.kind === "mslbl") it.el.classList.remove("show");
   const frame = (now) => {
-    const k = Math.min(1, (now - t0) / ms);
-    const e = ease(k);
-    S.domain = [from[0] + (target[0] - from[0]) * e, from[1] + (target[1] - from[1]) * e];
-    layout(S.domain, { labels: k >= 1 });
+    const k = Math.min(1, (now - t0) / ms), e = ease(k);
+    const span = Math.exp(s1 + (s2 - s1) * e), c = c1 + (c2 - c1) * e;
+    S.domain = [c - span / 2, c + span / 2];
+    layout(S.domain);
     if (k < 1) S.anim = requestAnimationFrame(frame);
   };
   S.anim = requestAnimationFrame(frame);
 }
 
 function drawIn(target) {
-  // Erste Einblendung: Achse zeichnet sich, Bänder wachsen, Punkte erscheinen nach Datum
+  // Erste Einblendung: die Linie zeichnet sich, dann erscheinen Versionen, Striche und Punkte
   S.domain = target;
   tl.classList.remove("drawn");
-  layout(target, { labels: false });
-  const W = tl.clientWidth;
-  for (const it of S.els) {
-    const left = parseFloat(it.el.style.left) || 0;
-    it.el.style.setProperty("--d", `${0.3 + (left / W) * 1.3}s`);
-  }
+  layout(target);
+  const W = tl.clientWidth || 1;
+  for (const n of TLV.view.querySelectorAll(".tl2-track > *")) n.style.setProperty("--d", `${0.25 + ((parseFloat(n.style.left) || 0) / W) * 1.2}s`);
   requestAnimationFrame(() => requestAnimationFrame(() => tl.classList.add("drawn")));
-  setTimeout(() => layout(S.domain, { labels: true }), 1900);
 }
 
 const domainFor = (view) => (!view || view === "all" ? S.full : [t(view[0]), t(view[1])]);
@@ -406,7 +359,7 @@ function setCaption(step) {
   };
   if (document.body.dataset.caption !== undefined && has) {
     document.body.classList.add("swap");
-    setTimeout(apply, 380);
+    setTimeout(apply, 300); // erst wenn ganz ausgeblendet (0,2 s), dann tauschen
   } else apply();
   toggleData("caption", Boolean(has) && !step.hero);
 }

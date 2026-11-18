@@ -81,8 +81,7 @@
               "kicker": "Körper",
               "title": "ICAROS",
               "text": "Man neigt sich, das Gerät kippt mit.",
-              "src": "icaros.png",
-              "contain": true
+              "src": "werkschau-flug-foto.jpg"
             },
             {
               "kicker": "Sensor",
@@ -116,7 +115,7 @@
       "label": "Erste Idee",
       "kicker": "Phase 1 · April und Mai",
       "title": "Wie eine Fledermaus",
-      "text": "Die erste Idee: Alles ist weiß. Erst das Echo zeigt Stück für Stück, was um einen herum ist.",
+      "text": "Die erste Idee: Man sieht nichts. Erst das Echo zeigt Stück für Stück, was um einen herum ist.",
       "view": [
         "2026-04-01",
         "2026-06-12"
@@ -125,14 +124,11 @@
       "highlight": [
         "v1-sinneswandler"
       ],
-      "cards": [
-        "v1-sinneswandler#fledermaus"
-      ],
       "media": [
         {
-          "src": "fruehe-version.mp4",
-          "caption": "Ein früher Stand · Ausschnitte",
-          "date": "2026-05-28"
+          "src": "fledermaus-echo.webm",
+          "caption": "Fledermaus-Echo",
+          "date": "2026-04-23"
         }
       ],
       "minutes": 1.2
@@ -160,18 +156,18 @@
       ],
       "media": [
         {
-          "src": "werkschau-titel.jpg",
-          "caption": "Werkschau HTW",
-          "date": "2026-07-18"
+          "src": "fruehe-version.mp4",
+          "caption": "Ein früher Stand",
+          "date": "2026-05-28"
         },
         {
-          "src": "werkschau-wald.jpg",
-          "caption": "Flug durch den Wald",
-          "date": "2026-07-18"
+          "src": "werkschau-show.webm",
+          "caption": "Ruckelnde Erstvorführung",
+          "date": "2026-07-17"
         },
         {
           "src": "werkschau-flug.mp4",
-          "caption": "Die Welt wächst mit",
+          "caption": "HTW-Werkschau",
           "date": "2026-07-18"
         }
       ],
@@ -332,9 +328,19 @@
       "media": [
         {
           "src": "installation.mp4",
-          "caption": "Die Installation im Futurium",
+          "caption": "Die Installation",
           "date": "2026-09-03",
           "at": "2026-09-11"
+        },
+        {
+          "src": "installation-flug.jpg",
+          "caption": "Zwei fliegen gleichzeitig",
+          "date": "2026-09-11"
+        },
+        {
+          "src": "vernissage.mp4",
+          "caption": "Vernissage",
+          "date": "2026-09-11"
         }
       ],
       "minutes": 1.2
