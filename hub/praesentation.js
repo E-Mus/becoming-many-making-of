@@ -288,11 +288,11 @@ function layout(domain) {
   }
 
   // Vorschaukarten nur für die Experimente, um die es auf der Folie geht (nicht bei Bildern)
-  const want = document.body.dataset.media === undefined ? TLV.cards.filter((n) => S.labelIds.has(n.dataset.id)) : [];
+  const want = document.body.dataset.media === undefined ? TLV.cards.filter((n) => S.tlCards.has(n.dataset.id)) : [];
   for (const n of TLV.cards) n.classList.toggle("show", want.includes(n));
   let paths = "";
   if (want.length) {
-    const rows = want.length > 3 ? [want.filter((_, i) => i % 2 === 0), want.filter((_, i) => i % 2 === 1)] : [want];
+    const rows = want.length * (CW + 14) > W * 0.9 ? [want.filter((_, i) => i % 2 === 0), want.filter((_, i) => i % 2 === 1)] : [want]; // eine Reihe, solange Platz ist
     rows.forEach((list, r) => {
       const xs = placeRow(list.map((n) => dotAt.get(n.dataset.id).px), CW, 14);
       let lo = 0;
@@ -351,7 +351,8 @@ function setCaption(step) {
   const apply = () => {
     $("cap-kicker").textContent = step.kicker ?? "";
     $("cap-title").textContent = step.title ?? "";
-    $("cap-text").innerHTML = esc(step.text ?? "");
+    // Zeilenumbrüche im Folientext: jede Zeile ein eigener Punkt zum Entlanghangeln
+    $("cap-text").innerHTML = String(step.text ?? "").split("\n").filter(Boolean).map((l) => `<span class="ln">${esc(l)}</span>`).join("");
     document.body.style.setProperty("--cap-c", step.color ?? "var(--accent)");
     $("caption").style.setProperty("--cap-c", step.color ?? "var(--accent)");
     renderCards(step.cards ?? []);
@@ -604,6 +605,7 @@ function show(index) {
   // Hervorhebungen
   S.highlight = new Set(step.highlight ?? []);
   S.labelIds = new Set([...cardsOf(step).map((c) => c.id), ...(step.labels ?? [])]);
+  S.tlCards = new Set(step.labels ?? []); // Vorschaukarten auf der Zeitleiste nur für "labels" (Karten oben gibt es schon)
   S.events = new Set(step.events ?? []);
   S.fade = step.fade !== false;
   S.focusVersion = step.version ?? null;

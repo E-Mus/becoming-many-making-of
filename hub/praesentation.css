@@ -45,6 +45,10 @@ body:not([data-hero]) #hero { opacity: 0; transform: translateY(-3vh); }
 .cap-kicker { margin: 0 0 2vh; font-size: clamp(10px, .85vw, 14px); font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
 .cap-title { margin: 0; font-size: clamp(30px, 3.6vw, 68px); font-weight: 700; line-height: 1.02; letter-spacing: .08em; text-transform: uppercase; text-shadow: var(--halo); }
 .cap-text { margin: 2.6vh 0 0; font-size: clamp(15px, 1.15vw, 20px); font-weight: 400; line-height: 1.5; color: var(--ink-2); max-width: 34ch; text-shadow: var(--halo); }
+/* Folientext als knappe Punkte: feiner Strich vor jeder Zeile */
+.cap-text .ln { display: block; position: relative; padding-left: 1.15em; }
+.cap-text .ln::before { content: ""; position: absolute; left: 0; top: .78em; width: .6em; height: 1.5px; background: currentColor; opacity: .45; }
+.cap-text .ln + .ln { margin-top: .4em; }
 body:not([data-caption]) #caption { opacity: 0; transform: translateY(-2vh); pointer-events: none; }
 /* Folienwechsel: erst ganz ausblenden (kurz), dann Text tauschen, dann ruhig einblenden */
 .swap #caption { opacity: 0 !important; transform: translateY(-6px); transition-duration: .2s, .2s !important; transition-timing-function: ease-in !important; }

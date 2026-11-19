@@ -31,7 +31,7 @@
       "label": "Rahmen",
       "kicker": "HTW Berlin × Futurium · 2026",
       "title": "Borrowed Senses",
-      "text": "Ein Hauptprojekt im Kurs Borrowed Senses, in Kooperation mit dem Futurium. Von April bis November: drei Versionen, rund 20 Experimente, eine Installation.",
+      "text": "Interdisziplinäres Hauptprojekt der HTW Berlin\nIn Kooperation mit dem Futurium\nApril bis November 2026: drei Versionen, rund 20 Experimente, eine Installation",
       "view": "all",
       "fade": false,
       "events": [
@@ -46,7 +46,7 @@
       "label": "ICAROS",
       "kicker": "Das Gerät",
       "title": "ICAROS",
-      "text": "Ein Flugsimulator, auf dem man liegt. Gelenkt wird mit dem ganzen Körper: Wer sich neigt, fliegt in diese Richtung. Dazu kommt eine VR-Brille.",
+      "text": "Flugsimulator in Bauchlage\nSteuerung über die Neigung des Körpers\nTÜV-geprüftes Medizinprodukt, auch in der Reha im Einsatz",
       "view": [
         "2026-04-01",
         "2026-08-05"
@@ -70,7 +70,7 @@
       "label": "Technik",
       "kicker": "Wie es funktioniert",
       "title": "Alles im Browser",
-      "text": "Becoming Many ist eine Webseite. Die Welt baut three.js, eine JavaScript-Bibliothek für 3D-Grafik. Mehr braucht es nicht, um sie auf ICAROS, Brille oder Laptop zu bringen.",
+      "text": "Webbasiert, gebaut mit three.js\nCross-Platform: ICAROS, VR-Brille, Desktop, Smartphone\nVersion 2 auf WebGPU, Version 3 auf WebGL",
       "view": "all",
       "fade": false,
       "media": [
@@ -115,7 +115,7 @@
       "label": "Erste Idee",
       "kicker": "Phase 1 · April und Mai",
       "title": "Wie eine Fledermaus",
-      "text": "Die erste Idee: Man sieht nichts. Erst das Echo zeigt Stück für Stück, was um einen herum ist.",
+      "text": "Erste Ideen und Experimente\nWahrnehmung über Echoortung\nDie Welt zeigt sich Stück für Stück",
       "view": [
         "2026-04-01",
         "2026-06-12"
@@ -137,7 +137,7 @@
       "label": "Sinne sammeln",
       "kicker": "Phase 2 · Juni und Juli",
       "title": "Sinne sammeln",
-      "text": "Aus dem Echo wird eine Reise: Wir sammeln Sinne und legen sie übereinander, Duft, Echo, Bewegung, Wärme. Je mehr dazukommen, desto lauter die Frage: Was ist eigentlich Wirklichkeit?",
+      "text": "Sinne sammeln und überlagern\nLange Nacht der Wissenschaften: erster grober Prototyp\nHTW-Werkschau: erste ganze Show, noch stark ruckelnd\nWebGPU stößt an Grenzen",
       "view": [
         "2026-05-25",
         "2026-07-28"
@@ -177,7 +177,7 @@
       "label": "Experimente",
       "kicker": "Nebenher",
       "title": "Experimente",
-      "text": "Rund 20 Studien. Jeder Sinn wird erst einzeln ausprobiert, bevor er in die Welt kommt. Vier davon zeigen wir genauer.",
+      "text": "Rund 20 eigenständige Kleinexperimente\nStil, Technik und Interaktion getrennt erproben\nAusprobieren, verwerfen, Gelungenes übernehmen\nKein einzelner Prompt für das ganze Projekt",
       "view": [
         "2026-06-15",
         "2026-08-28"
@@ -200,7 +200,7 @@
       "label": "Eigene Werkzeuge",
       "kicker": "Experimente · Werkzeuge",
       "title": "Eigene Werkzeuge",
-      "text": "Statt fertiger Programme bauen wir uns Werkzeuge selbst. WorldGen 3 erzeugt die Landschaft. An der Drone-Orgel stecken wir Flugwerte mit Kabeln auf Synth-Regler und hören, wie ein Sinn klingt.",
+      "text": "KI baut Werkzeuge statt fester Ergebnisse\nGestalten am Regler statt im Prompt\nSynthesizer: Flugbewegung steuert den Klang\nWeltgenerator: von der 2D-Karte zur 3D-Welt",
       "view": [
         "2026-06-15",
         "2026-08-28"
@@ -226,7 +226,7 @@
       "label": "Duft und Wurzeln",
       "kicker": "Experimente · Sinne",
       "title": "Duft und Wurzeln",
-      "text": "Duftwiese: Nur die Luft hat Farbe, der Wind trägt den Duft der Pflanzen davon. Wurzeln & Myzel: Ein Pilzgeflecht breitet sich unter der Landschaft aus.",
+      "text": "Duft als Partikelbewegung im Wind\nParameter wie Auftrieb direkt einstellbar\nGeneratives Wurzelsystem, das selbst weiterwächst",
       "view": [
         "2026-06-15",
         "2026-08-28"
@@ -245,7 +245,7 @@
       "label": "Neubau",
       "kicker": "Phase 3 · Version 3",
       "title": "Noch mal von vorn",
-      "text": "Mit Vibe-Coding geht es schnell, aber der Code wird zu Spaghetti. Weil es so schnell geht, fangen wir am 21. August einfach neu an: gründlich, auf WebGL, und diesmal wissen wir genau, was wir wollen.",
+      "text": "Zusammenführung aller Experimente: über 1000 Fehler\nSpaghetti-Code ohne Überblick\nNeustart mit klarer Struktur, WebGL statt WebGPU\nSchnell dank KI, gezielt dank der Experimente",
       "view": [
         "2026-08-06",
         "2026-09-14"
@@ -275,7 +275,7 @@
       "label": "Ins Futurium",
       "kicker": "Phase 4 · Finale Umsetzung",
       "title": "Ins Futurium",
-      "text": "Die Geräte ziehen ins Futurium, gebaut und getestet wird jetzt vor Ort. Die Stimme, die durch die Reise führt, spricht Tade. Selbst aufgenommen, bewusst ohne KI.",
+      "text": "Weiterentwicklung direkt vor Ort\nAufbau, Einrichtung und Tests bis zur Vernissage\nErzählstimme bewusst ohne KI, gesprochen von Tade",
       "view": [
         "2026-08-12",
         "2026-09-16"
@@ -308,7 +308,7 @@
       "label": "Jetzt steht es da",
       "kicker": "Heute",
       "title": "Jetzt steht es da",
-      "text": "Seit der Vernissage am 11. September fliegt man im Futurium. Und seit dem 15. November auch zu Hause im Browser: e-mus.github.io/becoming-many",
+      "text": "Installation im Futurium seit September 2026\nWebversion seit November: e-mus.github.io/becoming-many",
       "view": [
         "2026-08-28",
         "2026-11-25"
